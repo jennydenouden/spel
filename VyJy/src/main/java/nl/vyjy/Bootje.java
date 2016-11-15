@@ -1,0 +1,41 @@
+package nl.vyjy;
+
+public class Bootje {
+
+    private int waarde;
+    private int prijsBanaan;
+    private int prijsVis;
+    private int prijsSchelp;
+    private Speler eigenaar;
+
+    Bootje(int waarde, int prijsBanaan, int prijsVis, int prijsSchelp){
+        this.waarde = waarde;
+        this.prijsBanaan = prijsBanaan;
+        this.prijsVis = prijsVis;
+        this.prijsSchelp = prijsSchelp;
+    }
+
+    public int getWaarde() {
+        return waarde;
+    }
+
+    public int getPrijsBanaan() {
+        return prijsBanaan;
+    }
+
+    public int getPrijsVis() {
+        return prijsVis;
+    }
+
+    public int getPrijsSchelp() {
+        return prijsSchelp;
+    }
+
+    public Speler getEigenaar() {
+        return eigenaar;
+    }
+
+    public void setEigenaar(Speler eigenaar) {
+        this.eigenaar = eigenaar;
+    }
+}
