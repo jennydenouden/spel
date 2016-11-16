@@ -16,19 +16,30 @@ public class BootjesController {
 	@Autowired
 	private BootjesRepository repo;
 	
+	/*
+	 * Voegt de bootjes toe aan de database, als ze daar niet
+	 * al in zaten. Dit gebeurt wanneer men naar de URL /bootjes
+	 * surft. Vervolgens worden de bootjes weergegeven dmv de
+	 * showBootjes jsp file.
+	 */
 	@RequestMapping("/bootjes")
 	public String initBootjes(Model model){		
-		repo.deleteAll();
-		ArrayList<Bootje> bootjes = getAllBootjes();
-		for(Bootje b : bootjes){
-			repo.save(b);
-		}
+		if(repo.count() == 0){
+			ArrayList<Bootje> bootjes = getAllBootjes();
+			for(Bootje b : bootjes){
+				repo.save(b);
+			}
+		}		
 		
-		model.addAttribute("bootjes", bootjes);
+		model.addAttribute("bootjes", repo.findAll());
 		return "showBootjes";
 	}
 	
 	
+	/*
+	 * Maakt alle bootjes uit Feia's excel file aan, en
+	 * geeft die terug
+	 */
 	private ArrayList<Bootje> getAllBootjes(){
 		ArrayList<Bootje> bootjes = new ArrayList<>();
 		
