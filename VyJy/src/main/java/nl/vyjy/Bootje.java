@@ -2,13 +2,16 @@ package nl.vyjy;
 
 public class Bootje {
 
+    private long id;
     private int waarde;
     private int prijsBanaan;
     private int prijsVis;
     private int prijsSchelp;
     private Speler eigenaar;
 
-    Bootje(int waarde, int prijsBanaan, int prijsVis, int prijsSchelp){
+    Bootje(long id, int waarde, int prijsBanaan, int prijsVis, int prijsSchelp){
+        // deze class moet met een database gaan werken
+        this.id = id;
         this.waarde = waarde;
         this.prijsBanaan = prijsBanaan;
         this.prijsVis = prijsVis;
