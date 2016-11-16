@@ -17,7 +17,8 @@
 			${b.prijsBanaan } bananen<br>
 			${b.prijsVis } vissen<br>
 			${b.prijsSchelp } schelpen<br>
-			Verkocht : ${b.verkocht}		
+			Verkocht : ${b.verkocht}	
+			<a href="/koop/${b.id }">Koop dit bootje</a>
 		</li>
 	</c:forEach>
 
