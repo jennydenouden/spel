@@ -15,13 +15,18 @@ public class Bootje {
     private int prijsSchelp;
     private boolean verkocht;
 
-    Bootje(long id, int waarde, int prijsBanaan, int prijsVis, int prijsSchelp){
+    public Bootje(int waarde, int prijsBanaan, int prijsVis, int prijsSchelp){
         // deze class moet met een database gaan werken
-        this.id = id;
         this.waarde = waarde;
         this.prijsBanaan = prijsBanaan;
         this.prijsVis = prijsVis;
         this.prijsSchelp = prijsSchelp;
+        this.verkocht = false;
+    }
+    
+    //Default constructor moest ik toevoegen van hibernate
+    public Bootje(){
+    	this(0, 0, 0, 0);
     }
 
     @Id
@@ -49,17 +54,13 @@ public class Bootje {
     public int getPrijsSchelp() {
         return prijsSchelp;
     }
-    
-    public boolean IsVerkocht() {
-        return verkocht;
-    }
-
-    public void setVerkocht(boolean verkocht) {
-        this.verkocht = verkocht;
-    }
 
 	public boolean isVerkocht() {
 		return verkocht;
+	}
+
+	public void setVerkocht(boolean verkocht) {
+		this.verkocht = verkocht;
 	}
 
 	public void setWaarde(int waarde) {
