@@ -7,7 +7,7 @@ public class Bootje {
     private int prijsBanaan;
     private int prijsVis;
     private int prijsSchelp;
-    private boolean isVerkocht;
+    private boolean verkocht;
 
     Bootje(long id, int waarde, int prijsBanaan, int prijsVis, int prijsSchelp){
         // deze class moet met een database gaan werken
@@ -42,11 +42,11 @@ public class Bootje {
         return prijsSchelp;
     }
     
-    public boolean getIsVerkocht() {
-        return isVerkocht;
+    public boolean IsVerkocht() {
+        return verkocht;
     }
 
-    public void setIsVerkocht(boolean isVerkocht) {
-        this.isVerkocht = isVerkocht;
+    public void setVerkocht(boolean verkocht) {
+        this.verkocht = verkocht;
     }
 }

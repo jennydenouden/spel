@@ -17,7 +17,7 @@ class Speler {
         }
         if(betaalbaar && !bootje.getIsVerkocht()){
             this.inventaris.add(bootje);
-            bootje.setIsVerkocht(true);
+            bootje.setVerkocht(true);
         }
     }
     
