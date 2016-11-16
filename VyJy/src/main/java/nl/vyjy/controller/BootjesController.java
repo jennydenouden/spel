@@ -1,11 +1,16 @@
 package nl.vyjy.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import nl.vyjy.Bootje;
@@ -33,6 +38,23 @@ public class BootjesController {
 		
 		model.addAttribute("bootjes", repo.findAll());
 		return "showBootjes";
+	}
+	
+	
+	@RequestMapping(value="/koop/{id}", method=RequestMethod.GET)
+	public String koopBootje(@PathVariable long id, HttpServletResponse response) throws IOException{
+		Bootje b = repo.findOne(id);
+		if(b == null || b.isVerkocht()){
+			response.sendError(404, "Ongeldig bootje");
+			return null;
+		}
+		else{
+			b.setVerkocht(true);
+			repo.save(b);
+			//repo.delete(b);
+			System.err.println("Je moet nog wel even het bootje doorgooien naar een speler");
+			return "redirect:/bootjes";
+		}
 	}
 	
 	
