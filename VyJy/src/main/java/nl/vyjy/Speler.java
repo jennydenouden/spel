@@ -1,14 +1,23 @@
 package nl.vyjy;
 
+import java.util.ArrayList;
 import java.util.List;
 
-class Speler {
+public class Speler {
 
     private String name;
     private int visjes;
     private int bananen;
     private int schelpen;
     private List<Bootje> inventaris;
+    
+    public Speler(String name){
+        this.name = name;
+        this.visjes = 0;
+        this.bananen = 0;
+        this.schelpen = 0;
+        this.inventaris = new ArrayList<Bootje>();
+    }
     
     public void koopBootje(Bootje bootje){
         boolean betaalbaar = false;
