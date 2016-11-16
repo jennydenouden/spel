@@ -7,7 +7,7 @@ public class Bootje {
     private int prijsBanaan;
     private int prijsVis;
     private int prijsSchelp;
-    private Speler eigenaar;
+    private boolean isVerkocht;
 
     Bootje(long id, int waarde, int prijsBanaan, int prijsVis, int prijsSchelp){
         // deze class moet met een database gaan werken
@@ -18,6 +18,14 @@ public class Bootje {
         this.prijsSchelp = prijsSchelp;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+    
     public int getWaarde() {
         return waarde;
     }
@@ -33,12 +41,12 @@ public class Bootje {
     public int getPrijsSchelp() {
         return prijsSchelp;
     }
-
-    public Speler getEigenaar() {
-        return eigenaar;
+    
+    public boolean getIsVerkocht() {
+        return isVerkocht;
     }
 
-    public void setEigenaar(Speler eigenaar) {
-        this.eigenaar = eigenaar;
+    public void setIsVerkocht(boolean isVerkocht) {
+        this.isVerkocht = isVerkocht;
     }
 }
