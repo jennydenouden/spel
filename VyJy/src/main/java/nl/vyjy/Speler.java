@@ -15,7 +15,7 @@ class Speler {
         if(bootje.getPrijsBanaan() <= bananen && bootje.getPrijsSchelp() <= schelpen && bootje.getPrijsVis() <= visjes){
             betaalbaar = true;
         }
-        if(betaalbaar && !bootje.IsVerkocht()){
+        if(betaalbaar && !bootje.isVerkocht()){
             this.inventaris.add(bootje);
             bootje.setVerkocht(true);
         }
