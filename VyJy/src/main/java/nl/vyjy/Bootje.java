@@ -1,5 +1,11 @@
 package nl.vyjy;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Bootje {
 
     private long id;
@@ -18,6 +24,8 @@ public class Bootje {
         this.prijsSchelp = prijsSchelp;
     }
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     public long getId() {
         return id;
     }
@@ -49,4 +57,24 @@ public class Bootje {
     public void setVerkocht(boolean verkocht) {
         this.verkocht = verkocht;
     }
+
+	public boolean isVerkocht() {
+		return verkocht;
+	}
+
+	public void setWaarde(int waarde) {
+		this.waarde = waarde;
+	}
+
+	public void setPrijsBanaan(int prijsBanaan) {
+		this.prijsBanaan = prijsBanaan;
+	}
+
+	public void setPrijsVis(int prijsVis) {
+		this.prijsVis = prijsVis;
+	}
+
+	public void setPrijsSchelp(int prijsSchelp) {
+		this.prijsSchelp = prijsSchelp;
+	}
 }
