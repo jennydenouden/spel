@@ -46,6 +46,9 @@ public class Speler {
         if(betaalbaar && !bootje.isVerkocht()){
             this.inventaris.add(bootje);
             bootje.setVerkocht(true);
+            this.bananen -= bootje.getPrijsBanaan();
+            this.visjes -= bootje.getPrijsVis();
+            this.schelpen -= bootje.getPrijsSchelp();
             result = true;
         }
         return result;
