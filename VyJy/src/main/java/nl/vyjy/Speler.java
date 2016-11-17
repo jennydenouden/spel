@@ -27,6 +27,14 @@ public class Speler {
         this.inventaris = new ArrayList<Bootje>();
     }
     
+    public Speler(){
+    	this.name = "speler" +getId();
+    	this.visjes = 0;
+    	this.bananen = 0;
+        this.schelpen = 0;
+        this.inventaris = new ArrayList<Bootje>();
+    }
+    
     public void koopBootje(Bootje bootje){
         boolean betaalbaar = false;
         if(bootje.getPrijsBanaan() <= bananen && bootje.getPrijsSchelp() <= schelpen && bootje.getPrijsVis() <= visjes){
@@ -37,9 +45,8 @@ public class Speler {
             bootje.setVerkocht(true);
         }
     }
-    
-    
-    @Id
+
+	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     public long getId() {
 		return id;
@@ -52,6 +59,10 @@ public class Speler {
 	public String getName() {
         return name;
     }
+	
+    public void setName(String name) {
+		this.name = name;
+	}
 
     public int getVisjes() {
         return visjes;
