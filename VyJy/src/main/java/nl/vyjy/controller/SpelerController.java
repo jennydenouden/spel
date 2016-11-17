@@ -1,10 +1,8 @@
 package nl.vyjy.controller;
 
-<<<<<<< HEAD
+
 import java.util.ArrayList;
 import nl.vyjy.Speler;
-=======
->>>>>>> b244623801c962338632f75fba597fb88402ec9f
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class SpelerController {
     
-<<<<<<< HEAD
     @Autowired
     private SpelerRepository repo;
     
@@ -28,14 +25,6 @@ public class SpelerController {
         }
         
         model.addAttribute("spelers", repo.findAll());
-=======
-	@Autowired
-	private SpelerRepository repo;
-	
-    @RequestMapping("/speler")
-    public String showSpeler(Model model){
-       // model.addAttribute("inventaris", );
->>>>>>> b244623801c962338632f75fba597fb88402ec9f
         return "showSpeler";
     }
 
