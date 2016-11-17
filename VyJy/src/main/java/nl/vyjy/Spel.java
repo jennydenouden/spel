@@ -32,6 +32,7 @@ public class Spel {
 		this.bootjesWinkel = new BootjesWinkel(4);
 	}
 	
+	@Transient
 	public Speler getHuidigeSpeler(){
 		return this.huidigeSpeler;
 	}
