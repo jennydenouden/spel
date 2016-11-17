@@ -11,15 +11,16 @@
 <h1>Alle bootjes in het systeem:</h1>
 <list>
 	<c:forEach items="${bootjes}" var="b">
-		<li> 
-			Bootje ${b.id} <br>
-			Kost:<br>
-			${b.prijsBanaan } bananen<br>
-			${b.prijsVis } vissen<br>
-			${b.prijsSchelp } schelpen<br>
-			Verkocht : ${b.verkocht}	
-			<a href="/koop/${b.id }">Koop dit bootje</a>
-		</li>
+		<c:if test="${!b.verkocht }">
+			<li> 
+				Bootje ${b.id} <br>
+				Kost:<br>
+				${b.prijsBanaan } bananen<br>
+				${b.prijsVis } vissen<br>
+				${b.prijsSchelp } schelpen
+				<a href="/koop/${b.id }">Koop dit bootje</a>
+			</li>
+		</c:if>
 	</c:forEach>
 
 </list>
