@@ -14,12 +14,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import nl.vyjy.Bootje;
+import nl.vyjy.Spel;
+import nl.vyjy.Speler;
 
 @Controller
 public class BootjesController {
 
 	@Autowired
 	private BootjesRepository repo;
+	
+	@Autowired
+	private SpelRepository spelRepo;
 	
 	/*
 	 * Voegt de bootjes toe aan de database, als ze daar niet
@@ -49,10 +54,17 @@ public class BootjesController {
 			return null;
 		}
 		else{
-			b.setVerkocht(true);
-			repo.save(b);
-			//repo.delete(b);
-			System.err.println("Je moet nog wel even het bootje doorgooien naar een speler");
+			//kan speler het echt kopen?
+			//Spel opvragen via spelRepo. Maar welke is dan de current game? Nu hebben we er pas 1, dus kan ik gewoon die ene pakken? 
+			Spel s = spelRepo.findOne(1l);
+			Speler speler = s.getHuidigeSpeler();
+			if(speler.koopBootje(b)){
+				b.setVerkocht(true);
+				repo.save(b);
+			}
+			else{
+				response.sendError(404, "De speler kan dit bootje niet betalen");
+			}
 			return "redirect:/bootjes";
 		}
 	}
