@@ -35,15 +35,18 @@ public class Speler {
         this.inventaris = new ArrayList<Bootje>();
     }
     
-    public void koopBootje(Bootje bootje){
+    public boolean koopBootje(Bootje bootje){
         boolean betaalbaar = false;
+        boolean result = false;
         if(bootje.getPrijsBanaan() <= bananen && bootje.getPrijsSchelp() <= schelpen && bootje.getPrijsVis() <= visjes){
             betaalbaar = true;
         }
         if(betaalbaar && !bootje.isVerkocht()){
             this.inventaris.add(bootje);
             bootje.setVerkocht(true);
+            result = true;
         }
+        return result;
     }
 
 	@Id
