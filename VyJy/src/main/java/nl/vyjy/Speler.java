@@ -3,13 +3,21 @@ package nl.vyjy;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Transient;
+
+@Entity
 public class Speler {
 
     private String name;
+    private long id;
     private int visjes;
     private int bananen;
     private int schelpen;
-    private List<Bootje> inventaris;
+    private ArrayList<Bootje> inventaris;
     
     public Speler(String name){
         this.name = name;
@@ -30,7 +38,18 @@ public class Speler {
         }
     }
     
-    public String getName() {
+    
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public String getName() {
         return name;
     }
 
@@ -57,12 +76,13 @@ public class Speler {
     public void setSchelpen(int schelpen) {
         this.schelpen = schelpen;
     }
-
+    
+    @Transient
     public List<Bootje> getInventaris() {
         return inventaris;
     }
 
-    public void setInventaris(List<Bootje> inventaris) {
+    public void setInventaris(ArrayList<Bootje> inventaris) {
         this.inventaris = inventaris;
     }
 }
