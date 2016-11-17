@@ -2,6 +2,7 @@ package nl.vyjy.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -26,6 +27,37 @@ public class BootjesController {
 	@Autowired
 	private SpelRepository spelRepo;
 	
+	@Autowired
+	private SpelerRepository spelerRepo;
+	
+	
+	
+	@RequestMapping("/init")
+	public String initGame(){		
+		//Maak spel als die er nog niet is
+		Spel s = spelRepo.findOne(1l);
+		if(s == null){
+			s = new Spel();
+			spelRepo.save(s);
+		}
+		
+		//Als er nog niet genoeg spelers zijn, vraag
+		//om invoer om nieuwe spelers te maken
+		if(s.getSpelers().size() == 0){
+			ArrayList<Speler> spelers = new ArrayList<>();
+			spelers.add(new Speler("Jenny"));
+			spelers.add(new Speler("Feia"));
+			s.setSpelers(spelers);
+			spelerRepo.save(spelers);
+			
+			s.setHuidigeSpeler(spelers.get(0));
+			spelRepo.save(s);
+		}
+		
+		return "redirect:/bootjes";
+	}
+	
+	
 	/*
 	 * Voegt de bootjes toe aan de database, als ze daar niet
 	 * al in zaten. Dit gebeurt wanneer men naar de URL /bootjes
@@ -40,7 +72,6 @@ public class BootjesController {
 				repo.save(b);
 			}
 		}		
-		
 		model.addAttribute("bootjes", repo.findAll());
 		return "showBootjes";
 	}
@@ -57,6 +88,7 @@ public class BootjesController {
 			//kan speler het echt kopen?
 			//Spel opvragen via spelRepo. Maar welke is dan de current game? Nu hebben we er pas 1, dus kan ik gewoon die ene pakken? 
 			Spel s = spelRepo.findOne(1l);
+			System.out.println(s.getSpelers());
 			Speler speler = s.getHuidigeSpeler();
 			if(speler.koopBootje(b)){
 				b.setVerkocht(true);
@@ -64,6 +96,7 @@ public class BootjesController {
 			}
 			else{
 				response.sendError(404, "De speler kan dit bootje niet betalen");
+				return null;
 			}
 			return "redirect:/bootjes";
 		}
@@ -98,6 +131,8 @@ public class BootjesController {
 		
 		b = new Bootje(5, 1, 1, 3);
 		bootjes.add(b);
+		
+		Collections.shuffle(bootjes);
 		
 		return bootjes;
 	}

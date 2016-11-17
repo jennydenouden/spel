@@ -7,7 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Transient;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Speler {
@@ -17,7 +19,7 @@ public class Speler {
     private int visjes;
     private int bananen;
     private int schelpen;
-    private ArrayList<Bootje> inventaris;
+    private List<Bootje> inventaris;
     
     public Speler(String name){
         this.name = name;
@@ -91,12 +93,13 @@ public class Speler {
         this.schelpen = schelpen;
     }
     
-    @Transient
+    @OneToMany
+    @JoinColumn(name="speler_id") 
     public List<Bootje> getInventaris() {
         return inventaris;
     }
 
-    public void setInventaris(ArrayList<Bootje> inventaris) {
+    public void setInventaris(List<Bootje> inventaris) {
         this.inventaris = inventaris;
     }
 }
