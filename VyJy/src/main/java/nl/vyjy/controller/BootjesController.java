@@ -30,8 +30,6 @@ public class BootjesController {
 	@Autowired
 	private SpelerRepository spelerRepo;
 	
-	
-	
 	@RequestMapping("/init")
 	public String initGame(){		
 		//Maak spel als die er nog niet is
@@ -85,10 +83,7 @@ public class BootjesController {
 			return null;
 		}
 		else{
-			//kan speler het echt kopen?
-			//Spel opvragen via spelRepo. Maar welke is dan de current game? Nu hebben we er pas 1, dus kan ik gewoon die ene pakken? 
 			Spel s = spelRepo.findOne(1l);
-			System.out.println(s.getSpelers());
 			Speler speler = s.getHuidigeSpeler();
 			if(speler.koopBootje(b)){
 				b.setVerkocht(true);

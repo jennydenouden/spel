@@ -6,23 +6,23 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Alle bootjes</title>
+<jsp:include page="/WEB-INF/theme1/css/bootjes.css"/>
 </head>
 <body>
 <h1>Alle bootjes in het systeem:</h1>
-<list>
+<div>
 	<c:forEach items="${bootjes}" var="b">
 		<c:if test="${!b.verkocht }">
-			<li> 
+			<div class="bootItem"> 
 				Bootje ${b.id} <br>
 				Kost:<br>
 				${b.prijsBanaan } bananen<br>
 				${b.prijsVis } vissen<br>
-				${b.prijsSchelp } schelpen
+				${b.prijsSchelp } schelpen <br>
 				<a href="/koop/${b.id }">Koop dit bootje</a>
-			</li>
+			</div>
 		</c:if>
 	</c:forEach>
-
-</list>
+</div>
 </body>
 </html>
