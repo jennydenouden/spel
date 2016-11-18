@@ -16,7 +16,7 @@
 Voeg hier een lijst toe met bestaande spellen.
 <ul>
 	<c:forEach items="${ spellen }" var="spel">
-		<li> <a href="/spel/${spel.id }">Spel ${spel.id }</a> : ${spel.toString() }</li>
+		<li> <a href="/spel/${spel.id}/maakspeler">Spel ${spel.id }</a> : ${spel.toString() }</li>
 	</c:forEach>
 </ul>
 

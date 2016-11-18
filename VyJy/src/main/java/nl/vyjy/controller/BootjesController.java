@@ -96,6 +96,21 @@ public class BootjesController {
 		return "Join spel " + id + ", als dat bestaat";
 	}
 	
+	@RequestMapping(value = "/spel/{id}/nieuwespeler", method = RequestMethod.POST)
+	public String createdPlayer(String naam, @PathVariable long id){
+		Spel s = spelRepo.findOne(id);
+		s.getSpelers().add(new Speler(naam));
+		spelRepo.save(s);
+		return "redirect:/start";
+	}
+	
+	@RequestMapping(value = "/spel/{id}/maakspeler", method = RequestMethod.GET)
+	public String createPlayer(@PathVariable long id, Model model){
+		model.addAttribute("gameid", id);
+		return "maakspeler";
+	}
+	
+	
 	
 	
 	/*
