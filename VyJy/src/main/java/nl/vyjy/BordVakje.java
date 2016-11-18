@@ -1,25 +1,31 @@
 package nl.vyjy;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class BordVakje {
     
-    @Id
-    private long id;
+    private Long id;
     private int xPos;
     private int yPos;
     //private Tegel tegel;
 
-    public long getId() {
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
-
+    
+    @OneToOne(cascade=CascadeType.ALL, mappedBy="bordvakje")
     public int getxPos() {
         return xPos;
     }
