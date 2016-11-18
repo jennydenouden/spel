@@ -71,6 +71,12 @@ public class BootjesController {
 		return "redirect:/bootjes";
 	}
 	
+	@RequestMapping(value = "/init", method=RequestMethod.POST)
+	public @ResponseBody String createNewGame(){
+		return "bla";
+	}
+	
+	
 	
 	/*
 	 * Voegt de bootjes toe aan de database, als ze daar niet
@@ -112,7 +118,9 @@ public class BootjesController {
 	}
 	
 	
-	
+	/*
+	 * Geeft het eerste onverkochte bootje in de lijst met alle bootjes
+	 */
 	private Bootje getEersteOnverkochteBootje(){
 		Spel s = spelRepo.findOne(1l);
 		List<Bootje> bootjes = s.getAlleBootjes();
