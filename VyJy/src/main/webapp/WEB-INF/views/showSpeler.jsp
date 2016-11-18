@@ -30,6 +30,16 @@
                         <a href="/schelpaf${s.id}"><strong>-</strong></a>
                     </li>
                 </ul>
+                <br>
+                Bootjes totale waarde: ${s.printWaardeInventaris()}
+                <ul>
+                	<c:forEach items = "${ s.inventaris }" var = "bootje">
+                		<li>
+                			${bootje.toString()}
+                		</li>
+                	</c:forEach>
+                
+                </ul>
             </p>
         </c:forEach>
     </body>

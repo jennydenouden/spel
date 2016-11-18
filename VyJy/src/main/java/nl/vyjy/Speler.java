@@ -7,7 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Transient;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Speler {
@@ -17,7 +19,7 @@ public class Speler {
     private int visjes;
     private int bananen;
     private int schelpen;
-    private ArrayList<Bootje> inventaris;
+    private List<Bootje> inventaris;
     
     public Speler(String name){
         this.name = name;
@@ -35,15 +37,21 @@ public class Speler {
         this.inventaris = new ArrayList<Bootje>();
     }
     
-    public void koopBootje(Bootje bootje){
+    public boolean koopBootje(Bootje bootje){
         boolean betaalbaar = false;
+        boolean result = false;
         if(bootje.getPrijsBanaan() <= bananen && bootje.getPrijsSchelp() <= schelpen && bootje.getPrijsVis() <= visjes){
             betaalbaar = true;
         }
         if(betaalbaar && !bootje.isVerkocht()){
             this.inventaris.add(bootje);
             bootje.setVerkocht(true);
+            this.bananen -= bootje.getPrijsBanaan();
+            this.visjes -= bootje.getPrijsVis();
+            this.schelpen -= bootje.getPrijsSchelp();
+            result = true;
         }
+        return result;
     }
 
 	@Id
@@ -88,12 +96,25 @@ public class Speler {
         this.schelpen = schelpen;
     }
     
-    @Transient
+    @OneToMany
+    @JoinColumn(name="speler_id") 
     public List<Bootje> getInventaris() {
         return inventaris;
     }
 
-    public void setInventaris(ArrayList<Bootje> inventaris) {
+    public void setInventaris(List<Bootje> inventaris) {
         this.inventaris = inventaris;
+    }
+    
+    /*
+     * Geeft de som van de waarden van alle bootjes in de inventaris
+     * van deze speler
+     */
+    public String printWaardeInventaris(){
+    	int result = 0;
+    	for(Bootje b : inventaris){
+    		result += b.getWaarde();
+    	}
+    	return result + "";
     }
 }

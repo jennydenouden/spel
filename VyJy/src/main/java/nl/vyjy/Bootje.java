@@ -78,4 +78,13 @@ public class Bootje {
 	public void setPrijsSchelp(int prijsSchelp) {
 		this.prijsSchelp = prijsSchelp;
 	}
+	
+	/*
+	 * Implementatie van de toString methode
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString(){
+		return "[Bootje     ]\n"
+			+  "["+this.waarde+"    punten]";
+	}
 }
