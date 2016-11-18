@@ -1,11 +1,22 @@
 package nl.vyjy;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+
+@Entity
 public class BootjesWinkel {
 
-	private final int aantalBootjesTeKoop;
-	private ArrayList<Bootje> bootjesTeKoop = new ArrayList<>();
+	private int aantalBootjesTeKoop;
+	private List<Bootje> bootjesTeKoop = new ArrayList<>();
+	private long id;
 	
 	/*
 	 * Constructor voor een bootjeswinkel, waarbij je aan kan geven hoeveel
@@ -45,6 +56,34 @@ public class BootjesWinkel {
 			addBootje();
 		}
 		return result;
+	}
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	@OneToMany
+	@JoinColumn(name = "bootjeswinkel_id")
+	public List<Bootje> getBootjesTeKoop() {
+		return bootjesTeKoop;
+	}
+
+	public void setBootjesTeKoop(List<Bootje> bootjesTeKoop) {
+		this.bootjesTeKoop = bootjesTeKoop;
+	}
+
+	public int getAantalBootjesTeKoop() {
+		return aantalBootjesTeKoop;
+	}
+
+	public void setAantalBootjesTeKoop(int aantalBootjesTeKoop) {
+		this.aantalBootjesTeKoop = aantalBootjesTeKoop;
 	}
 	
 	
