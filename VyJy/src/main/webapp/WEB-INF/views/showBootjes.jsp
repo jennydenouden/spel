@@ -11,7 +11,7 @@
 <body>
 <h1>Alle bootjes in het systeem:</h1>
 <div>
-	<c:forEach items="${bootjes}" var="b">
+	<c:forEach items="${bootjeswinkel.bootjesTeKoop}" var="b">
 		<c:if test="${!b.verkocht }">
 			<div class="bootItem"> 
 				Bootje ${b.id} <br>
