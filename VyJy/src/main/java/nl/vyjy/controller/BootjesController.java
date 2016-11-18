@@ -32,6 +32,13 @@ public class BootjesController {
 	@Autowired
 	private SpelerRepository spelerRepo;
 	
+	@RequestMapping("/start")
+	public String chooseGame(Model model){
+		model.addAttribute("spellen", spelRepo.findAll());
+		return "kiesgame";
+	}
+	
+	
 	@RequestMapping("/init")
 	public String initGame(){		
 		//Maak spel als die er nog niet is
@@ -72,8 +79,21 @@ public class BootjesController {
 	}
 	
 	@RequestMapping(value = "/init", method=RequestMethod.POST)
-	public @ResponseBody String createNewGame(){
-		return "bla";
+	public String createNewGame(){
+		Spel s = new Spel();
+		spelRepo.save(s);
+		//Verder initialiseren spel:
+		//voeg spelers toe
+		//voeg bootjes toe
+		//voeg bootjeswinkel toe
+		//etc
+		
+		return "redirect:/init";
+	}
+	
+	@RequestMapping("/spel/{id}")
+	public @ResponseBody String joinGame(@PathVariable long id){
+		return "Join spel " + id + ", als dat bestaat";
 	}
 	
 	
