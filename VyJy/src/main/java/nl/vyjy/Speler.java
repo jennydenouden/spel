@@ -105,4 +105,16 @@ public class Speler {
     public void setInventaris(List<Bootje> inventaris) {
         this.inventaris = inventaris;
     }
+    
+    /*
+     * Geeft de som van de waarden van alle bootjes in de inventaris
+     * van deze speler
+     */
+    public String printWaardeInventaris(){
+    	int result = 0;
+    	for(Bootje b : inventaris){
+    		result += b.getWaarde();
+    	}
+    	return result + "";
+    }
 }
