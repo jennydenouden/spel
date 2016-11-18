@@ -38,24 +38,17 @@ public class BootjesWinkel {
 	 * Voeg een bootje toe aan de winkel. Dit kan alleen als er plek vrij is 
 	 * in de winkel.
 	 */
-	private void addBootje(){
-		if(bootjesTeKoop.size() < aantalBootjesTeKoop){
-			Bootje b = null;	//Hier moet je het eerste bootje uit de lijst halen
+	public void addBootje(Bootje b){
+		if(bootjesTeKoop.size() < aantalBootjesTeKoop && b != null){
 			bootjesTeKoop.add(b);
 		}
 	}
 	
 	/*
-	 * Koop een bootje uit de winkel. Je krijgt het bootje dat overeenkomt met de
-	 * index die je meegeeft aan de methode. De methode zorgt er ook voor dat je 
-	 * bootjeswinkel automatisch weer wordt aangevuld.
+	 * Koop een bootje uit de winkel. Verwijdert deze uit de bootjesTeKoop
 	 */
-	public Bootje koopBootje(int i){
-		Bootje result = bootjesTeKoop.get(i);
-		if(result != null){
-			addBootje();
-		}
-		return result;
+	public void koopBootje(Bootje b){
+		bootjesTeKoop.remove(b);
 	}
 
 	@Id

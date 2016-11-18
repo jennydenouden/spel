@@ -3,6 +3,7 @@ package nl.vyjy.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -97,6 +98,10 @@ public class BootjesController {
 			if(speler.koopBootje(b)){
 				b.setVerkocht(true);
 				repo.save(b);
+				//Werk de bootjeswinkel bij
+				s.getBootjesWinkel().koopBootje(b);
+				s.getBootjesWinkel().addBootje(getEersteOnverkochteBootje());
+				spelRepo.save(s);
 			}
 			else{
 				response.sendError(404, "De speler kan dit bootje niet betalen");
@@ -106,6 +111,21 @@ public class BootjesController {
 		}
 	}
 	
+	
+	
+	private Bootje getEersteOnverkochteBootje(){
+		Spel s = spelRepo.findOne(1l);
+		List<Bootje> bootjes = s.getAlleBootjes();
+		Bootje result = null;
+		for(Bootje b : bootjes){
+			if(!b.isVerkocht() && !s.getBootjesWinkel().getBootjesTeKoop().contains(b) ){
+				result = b;
+				break;
+			}
+		}
+		
+		return result;
+	}
 	
 	/*
 	 * Maakt alle bootjes uit Feia's excel file aan, en
