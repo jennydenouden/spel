@@ -3,6 +3,7 @@ package nl.vyjy;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Transient;
 
 @Entity
 public class Spel {
@@ -18,7 +18,6 @@ public class Spel {
 	private List<Speler> spelers;
 	private List<Tegel> alleTegels;
 	private List<Bootje> alleBootjes;
-	@Transient
 	private BootjesWinkel bootjesWinkel;
 	//TODO: Volgt later
 	//private Bord bord;
@@ -30,7 +29,8 @@ public class Spel {
 		this.spelers = new ArrayList<>();
 		this.alleTegels = new ArrayList<>();
 		this.alleBootjes = new ArrayList<>();
-		this.bootjesWinkel = new BootjesWinkel(4);
+		//Weggehaald, anders krijg ik een dubbele bootjeswinkel in de DB
+		//this.bootjesWinkel = new BootjesWinkel(4);
 	}
 	
 	@OneToOne
@@ -53,7 +53,7 @@ public class Spel {
 		this.id = id;
 	}
 
-	@OneToMany
+	@OneToMany(cascade=CascadeType.ALL) 
 	@JoinColumn(name = "spel_id")
 	public List<Speler> getSpelers() {
 		return spelers;
@@ -73,7 +73,7 @@ public class Spel {
 		this.alleTegels = alleTegels;
 	}
 
-	@OneToMany
+	@OneToMany(cascade=CascadeType.ALL) 
 	@JoinColumn(name = "spel_id")
 	public List<Bootje> getAlleBootjes() {
 		return alleBootjes;
@@ -81,6 +81,16 @@ public class Spel {
 
 	public void setAlleBootjes(List<Bootje> alleBootjes) {
 		this.alleBootjes = alleBootjes;
+	}
+
+	@OneToOne(cascade=CascadeType.ALL) 
+	@JoinColumn(name = "bootjeswinkel_id")
+	public BootjesWinkel getBootjesWinkel() {
+		return bootjesWinkel;
+	}
+
+	public void setBootjesWinkel(BootjesWinkel bootjesWinkel) {
+		this.bootjesWinkel = bootjesWinkel;
 	}
 	
 }

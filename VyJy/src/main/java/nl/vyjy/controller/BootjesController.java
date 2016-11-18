@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import nl.vyjy.Bootje;
+import nl.vyjy.BootjesWinkel;
 import nl.vyjy.Spel;
 import nl.vyjy.Speler;
 
@@ -36,7 +37,20 @@ public class BootjesController {
 		Spel s = spelRepo.findOne(1l);
 		if(s == null){
 			s = new Spel();
-			spelRepo.save(s);
+			//sla spel op in database
+			s = spelRepo.save(s);
+			
+			//Voeg lijst alle bootjes toe
+			ArrayList<Bootje> bootjes = getAllBootjes();
+			s.setAlleBootjes(bootjes);
+			s = spelRepo.save(s);
+		
+			//Voeg bootjeswinkel toe, met de eerste 4 bootjes uit de lijst
+			//als assortiment
+			BootjesWinkel b = new BootjesWinkel();
+			b.setBootjesTeKoop(s.getAlleBootjes().subList(0, 4));	
+			s.setBootjesWinkel(b);
+			s = spelRepo.save(s);
 		}
 		
 		//Als er nog niet genoeg spelers zijn, vraag
@@ -46,10 +60,11 @@ public class BootjesController {
 			spelers.add(new Speler("Jenny"));
 			spelers.add(new Speler("Feia"));
 			s.setSpelers(spelers);
-			spelerRepo.save(spelers);
+			//spelerRepo.save(spelers);
+			s = spelRepo.save(s);
 			
 			s.setHuidigeSpeler(spelers.get(0));
-			spelRepo.save(s);
+			s = spelRepo.save(s);
 		}
 		
 		return "redirect:/bootjes";
@@ -64,13 +79,7 @@ public class BootjesController {
 	 */
 	@RequestMapping("/bootjes")
 	public String initBootjes(Model model){		
-		if(repo.count() == 0){
-			ArrayList<Bootje> bootjes = getAllBootjes();
-			for(Bootje b : bootjes){
-				repo.save(b);
-			}
-		}		
-		model.addAttribute("bootjes", repo.findAll());
+		model.addAttribute("bootjeswinkel", spelRepo.findOne(1l).getBootjesWinkel());
 		return "showBootjes";
 	}
 	
