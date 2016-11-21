@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import nl.vyjy.Bootje;
 import nl.vyjy.BootjesWinkel;
+import nl.vyjy.SetTegels;
 import nl.vyjy.Spel;
 import nl.vyjy.Speler;
+import nl.vyjy.Tegel;
 
 @Controller
 public class BootjesController {
@@ -47,6 +49,11 @@ public class BootjesController {
 		ArrayList<Bootje> bootjes = getAllBootjes();
 		s.setAlleBootjes(bootjes);
 		s = spelRepo.save(s);
+		
+		//voeg kaartjes toe
+		ArrayList<Tegel> tegels = SetTegels.getAlleTegels();
+		s.setAlleTegels(tegels);
+		spelRepo.save(s);
 		
 		//voeg bootjeswinkel toe
 		BootjesWinkel b = new BootjesWinkel();

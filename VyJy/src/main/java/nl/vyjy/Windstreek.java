@@ -1,5 +1,11 @@
 package nl.vyjy;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Windstreek {
 	//Enumerations voor het type ondergrond, en het type item
 	public static enum Ondergrond {WATER, PAD, EILAND};
@@ -7,6 +13,7 @@ public class Windstreek {
 	
 	private Ondergrond ondergrond;
 	private Item item = Item.NIKS;
+	private long id;
 	
 	/*
 	 * Constructor voor een windstreek, met de gegeven ondergrond.
@@ -25,6 +32,9 @@ public class Windstreek {
 		this.item = item;
 	}
 	
+	// Default constructor voor windstreek, omdat dat moet van hibernate
+	public Windstreek(){}
+	
 	/*
 	 * Getter voor de ondergrond
 	 */
@@ -37,5 +47,23 @@ public class Windstreek {
 	 */
 	public Item getItem() {
 		return item;
+	}
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public void setOndergrond(Ondergrond ondergrond) {
+		this.ondergrond = ondergrond;
+	}
+
+	public void setItem(Item item) {
+		this.item = item;
 	}
 }

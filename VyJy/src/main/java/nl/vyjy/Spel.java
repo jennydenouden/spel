@@ -63,7 +63,7 @@ public class Spel {
 		this.spelers = spelers;
 	}
 
-	@OneToMany
+	@OneToMany(cascade=CascadeType.ALL) 
 	@JoinColumn(name = "spel_id")
 	public List<Tegel> getAlleTegels() {
 		return alleTegels;
