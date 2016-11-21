@@ -13,16 +13,20 @@ public class Tegel {
 
 	private Windstreek noord, oost, zuid, west;
 	private long id;
+	private boolean gespeeld;
 	
 	public Tegel(Windstreek noord, Windstreek oost, Windstreek zuid, Windstreek west){
 		this.noord = noord;
 		this.oost = oost;
 		this.zuid = zuid;
 		this.west = west;
+		this.gespeeld = false;
 	}
 	
 	//Default constructor voor Tegel, omdat dat moet van hibernate
-	public Tegel(){	}
+	public Tegel(){	
+		this.gespeeld = false;
+	}
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -73,4 +77,18 @@ public class Tegel {
 	public void setWest(Windstreek west) {
 		this.west = west;
 	}
+	
+	public String toString(){
+		return "[N "+noord+"][O "+oost+"][Z "+zuid+"][W "+west+"]";
+	}
+
+	public boolean isGespeeld() {
+		return gespeeld;
+	}
+
+	public void setGespeeld(boolean gespeeld) {
+		this.gespeeld = gespeeld;
+	}
+	
+	
 }

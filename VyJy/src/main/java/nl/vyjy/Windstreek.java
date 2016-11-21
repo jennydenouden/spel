@@ -66,4 +66,24 @@ public class Windstreek {
 	public void setItem(Item item) {
 		this.item = item;
 	}
+	
+	public String toString(){
+		
+		String result = "";
+		switch(ondergrond){
+		case PAD :
+			result = "PAD";
+			break;
+		case EILAND :
+			result = "EILAND";
+			break;
+		case WATER :
+			result = "WATER";
+			break;
+		default :
+			result = "WTF????";		
+		}
+		
+		return result;
+	}
 }
