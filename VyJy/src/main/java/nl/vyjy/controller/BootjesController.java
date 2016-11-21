@@ -65,8 +65,15 @@ public class BootjesController {
 	@RequestMapping(value = "/spel/{id}/nieuwespeler", method = RequestMethod.POST)
 	public String createdPlayer(String naam, @PathVariable long id){
 		Spel s = spelRepo.findOne(id);
-		s.getSpelers().add(new Speler(naam));
+		List<Speler> spelers = s.getSpelers();
+		
+		Speler nieuweSpeler = new Speler(naam);
+		spelers.add(nieuweSpeler);
+		if(spelers.size() == 1){
+			s.setHuidigeSpeler(nieuweSpeler);
+		}
 		spelRepo.save(s);
+		
 		return "redirect:/start";
 	}
 	
