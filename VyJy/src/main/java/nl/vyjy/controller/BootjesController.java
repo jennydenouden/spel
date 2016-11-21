@@ -37,58 +37,24 @@ public class BootjesController {
 		model.addAttribute("spellen", spelRepo.findAll());
 		return "kiesgame";
 	}
-	
-	
-	@RequestMapping("/init")
-	public String initGame(){		
-		//Maak spel als die er nog niet is
-		Spel s = spelRepo.findOne(1l);
-		if(s == null){
-			s = new Spel();
-			//sla spel op in database
-			s = spelRepo.save(s);
-			
-			//Voeg lijst alle bootjes toe
-			ArrayList<Bootje> bootjes = getAllBootjes();
-			s.setAlleBootjes(bootjes);
-			s = spelRepo.save(s);
 		
-			//Voeg bootjeswinkel toe, met de eerste 4 bootjes uit de lijst
-			//als assortiment
-			BootjesWinkel b = new BootjesWinkel();
-			b.setBootjesTeKoop(s.getAlleBootjes().subList(0, 4));	
-			s.setBootjesWinkel(b);
-			s = spelRepo.save(s);
-		}
-		
-		//Als er nog niet genoeg spelers zijn, vraag
-		//om invoer om nieuwe spelers te maken
-		if(s.getSpelers().size() == 0){
-			ArrayList<Speler> spelers = new ArrayList<>();
-			spelers.add(new Speler("Jenny"));
-			spelers.add(new Speler("Feia"));
-			s.setSpelers(spelers);
-			//spelerRepo.save(spelers);
-			s = spelRepo.save(s);
-			
-			s.setHuidigeSpeler(spelers.get(0));
-			s = spelRepo.save(s);
-		}
-		
-		return "redirect:/bootjes";
-	}
-	
 	@RequestMapping(value = "/init", method=RequestMethod.POST)
 	public String createNewGame(){
 		Spel s = new Spel();
 		spelRepo.save(s);
-		//Verder initialiseren spel:
-		//voeg spelers toe
-		//voeg bootjes toe
-		//voeg bootjeswinkel toe
-		//etc
 		
-		return "redirect:/init";
+		//voeg bootjes toe
+		ArrayList<Bootje> bootjes = getAllBootjes();
+		s.setAlleBootjes(bootjes);
+		s = spelRepo.save(s);
+		
+		//voeg bootjeswinkel toe
+		BootjesWinkel b = new BootjesWinkel();
+		b.setBootjesTeKoop(s.getAlleBootjes().subList(0, 4));	
+		s.setBootjesWinkel(b);
+		s = spelRepo.save(s);
+		
+		return "redirect:/start";
 	}
 	
 	@RequestMapping("/spel/{id}")
