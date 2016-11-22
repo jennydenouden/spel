@@ -99,6 +99,9 @@ public class BootjesController {
 		return "Join spel " + id + ", als dat bestaat";
 	}
 	
+	/*
+	 * Dit is als je via de form een nieuwe speler maakt (wat je dus eigenlijk niet wil)
+	 */
 	@RequestMapping(value = "/spel/{id}/nieuwespeler", method = RequestMethod.POST)
 	public String createdPlayer(String naam, @PathVariable long id){
 		Spel s = spelRepo.findOne(id);
@@ -114,6 +117,9 @@ public class BootjesController {
 		return "redirect:/start";
 	}
 	
+	/*
+	 * Dit doe je als je op de spel N link klikt in start
+	 */
 	@RequestMapping(value = "/spel/{id}/maakspeler", method = RequestMethod.GET)
 	public String createPlayer(@PathVariable long id, HttpServletRequest request, Model model){
 		
@@ -147,6 +153,7 @@ public class BootjesController {
 					s.setHuidigeSpeler(nieuweSpeler);
 				}
 				
+				spelerRepo.save(nieuweSpeler);
 				session.setAttribute("spelerId", nieuweSpeler.getId());
 				session.setAttribute("spelId", id);
 			}
@@ -192,7 +199,7 @@ public class BootjesController {
 	public String koopBootje(@PathVariable long id, HttpServletResponse response, HttpServletRequest request) throws IOException{
 		Bootje b = repo.findOne(id);
 		if(b == null || b.isVerkocht()){
-			response.sendError(404, "Ongeldig bootje");
+			response.sendError(404, "Dat bootje bestaat niet");
 			return null;
 		}
 		else{
@@ -207,18 +214,32 @@ public class BootjesController {
 			}
 			Spel s = spelRepo.findOne(spelId);
 			Speler speler = s.getHuidigeSpeler();
-			if(speler.koopBootje(b)){
-				b.setVerkocht(true);
-				repo.save(b);
-				//Werk de bootjeswinkel bij
-				s.getBootjesWinkel().koopBootje(b);
-				s.getBootjesWinkel().addBootje(getEersteOnverkochteBootje());
-				spelRepo.save(s);
+			Object idObjSpeler = session.getAttribute("spelerId");
+			if(idObjSpeler != null){
+				long spelerId = (long)idObjSpeler;
+				if(spelerId == speler.getId()){
+					
+					if(speler.koopBootje(b)){
+						b.setVerkocht(true);
+						repo.save(b);
+						//Werk de bootjeswinkel bij
+						s.getBootjesWinkel().koopBootje(b);
+						s.getBootjesWinkel().addBootje(getEersteOnverkochteBootje());
+						spelRepo.save(s);
+					}
+					else{
+						response.sendError(404, "Jij kan dit bootje niet betalen");
+						return null;
+					}
+				}
+				else{
+					response.sendError(404, "Jij bent niet aan de beurt.");
+					System.err.println("id van deze speler: " + spelerId + "\nid van de huidige speler: " + speler.getId());
+					return null;
+				}
 			}
-			else{
-				response.sendError(404, "De speler kan dit bootje niet betalen");
-				return null;
-			}
+			
+			
 			return "redirect:/bootjes";
 		}
 	}
