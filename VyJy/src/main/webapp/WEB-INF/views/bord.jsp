@@ -10,7 +10,7 @@
 <body>
 
 <h2>Het speelbord</h2>
-
+Spel ${spelId } tussen ${spelers }
 <h4>Tegels op bord:</h4>
 <ul>
 	<c:if test="${tegelsOpBord.size() != 0 }">
