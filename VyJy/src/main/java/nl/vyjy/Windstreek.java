@@ -2,11 +2,11 @@ package nl.vyjy;
 
 public class Windstreek {
 	//Enumerations voor het type ondergrond, en het type item
-	public static enum Ondergrond {WATER, PAD, EILAND};
-	public static enum Item {NIKS, BANAAN, VIS, SCHELP};
+	public static enum Ondergrond {WATER, BRUG, LAND, JOKER};
+//	public static enum Item {NIKS, BANAAN, VIS, SCHELP};
 	
 	private Ondergrond ondergrond;
-	private Item item = Item.NIKS;
+//	private Item item = Item.NIKS;
 	
 	/*
 	 * Constructor voor een windstreek, met de gegeven ondergrond.
@@ -20,10 +20,10 @@ public class Windstreek {
 	 * Constructor voor een windstreek, met de gegeven ondergrond,
 	 * en het gegeven item.
 	 */
-	public Windstreek(Ondergrond ondergrond, Item item){
-		this(ondergrond);
-		this.item = item;
-	}
+//	public Windstreek(Ondergrond ondergrond, Item item){
+//		this(ondergrond);
+//		this.item = item;
+//	}
 	
 	/*
 	 * Getter voor de ondergrond
@@ -35,7 +35,7 @@ public class Windstreek {
 	/*
 	 * Getter voor het item
 	 */
-	public Item getItem() {
-		return item;
-	}
+//	public Item getItem() {
+//		return item;
+//	}
 }

@@ -8,8 +8,8 @@ import javax.persistence.Id;
 @Entity
 public class Tegel {
 
+        private long id;
 	private Windstreek noord, oost, zuid, west;
-	private long id;
 	
 	public Tegel(Windstreek noord, Windstreek oost, Windstreek zuid, Windstreek west){
 		this.noord = noord;
