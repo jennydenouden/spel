@@ -5,11 +5,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.HttpRequestHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -36,6 +39,23 @@ public class BootjesController {
 	
 	@Autowired
 	private TegelRepository tegelRepo;
+	
+	@RequestMapping("/login")
+	public String login(){
+		return "login";
+	}
+	
+	@RequestMapping(value = "/start", method = RequestMethod.POST )
+	public String checkLogin(String naam, HttpServletRequest request){
+		HttpSession s = request.getSession(false);
+		if(s == null){
+			s = request.getSession();
+		}
+		
+		s.setAttribute("naam", naam);
+		
+		return "redirect:/start";
+	}
 	
 	@RequestMapping("/start")
 	public String chooseGame(Model model){
@@ -87,11 +107,48 @@ public class BootjesController {
 		return "redirect:/start";
 	}
 	
+	/*
+	 * Hier ga je heen als je op spel n link klikt
+	 */
 	@RequestMapping(value = "/spel/{id}/maakspeler", method = RequestMethod.GET)
-	public String createPlayer(@PathVariable long id, Model model){
-		model.addAttribute("gameid", id);
-		return "maakspeler";
+	public String createPlayer(@PathVariable long id, HttpServletRequest request, Model model){
+		
+		String result;
+		
+		HttpSession session = request.getSession();
+		String naam = (String) session.getAttribute("naam");
+		//Er is geen session: je kunt random mensen toevoegen als je dat wil
+		//Je kunt dit niet zien aan session, die krijg je automagisch, maar als
+		//de naam null is, zijn ze nog niet bij login geweest
+		//
+		//Note dit is alleen voor nu, in het uiteindelijke spel wil je dit niet
+		//kunnen
+		if(naam == null){
+			model.addAttribute("gameid", id);
+			result = "maakspeler";
+		}
+		//Er is wel een session, voeg de huidige speler toe aan een spel
+		//Mss moet je nog checken of die al in een ander spel zit?/ die speler
+		//al bestaat idk.
+		else{
+			Spel s = spelRepo.findOne(id);
+			List<Speler> spelers = s.getSpelers();
+	
+			Speler nieuweSpeler = new Speler(naam);
+			spelers.add(nieuweSpeler);
+			if(spelers.size() == 1){
+				s.setHuidigeSpeler(nieuweSpeler);
+			}
+			spelRepo.save(s);
+			
+			result = "redirect:/start";
+		}
+	
+		
+		
+		return result;
 	}
+	
 	
 	
 	
@@ -171,6 +228,12 @@ public class BootjesController {
 	}
 	
 	
+	/*
+	 * Hulpmethode die de index van de huidige tegel (bovenste tegel op 
+	 * de stapel tegels) teruggeeft. Hiermee kan de verzameling tegels
+	 * worden gesplitst in tegels op het bord, de huidige tegel, en tegels
+	 * op de stapel.
+	 */
 	private int getIndexHuidigeTegel(){
 		
 		Spel s = spelRepo.findOne(1l);
