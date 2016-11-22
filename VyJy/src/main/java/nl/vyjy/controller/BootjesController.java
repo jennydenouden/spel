@@ -141,11 +141,12 @@ public class BootjesController {
 				}
 				
 				session.setAttribute("spelerId", nieuweSpeler.getId());
+				session.setAttribute("spelId", id);
 			}
 			
 			spelRepo.save(s);
 			
-			result = "redirect:/start";
+			result = "redirect:/bord";
 		}
 	
 		
@@ -164,21 +165,40 @@ public class BootjesController {
 	 * showBootjes jsp file.
 	 */
 	@RequestMapping("/bootjes")
-	public String initBootjes(Model model){		
-		model.addAttribute("bootjeswinkel", spelRepo.findOne(1l).getBootjesWinkel());
+	public String initBootjes(Model model, HttpServletRequest request){	
+		//Default id voor het geval we nog random willen kijken
+		long spelId = 1l;
+		
+		//Vraag het id van het spel op uit de session
+		HttpSession session = request.getSession();
+		Object idObj = session.getAttribute("spelId");
+		if(idObj != null){
+			spelId = (long)idObj;
+		}
+		
+		model.addAttribute("bootjeswinkel", spelRepo.findOne(spelId).getBootjesWinkel());
 		return "showBootjes";
 	}
 	
 	
 	@RequestMapping(value="/koop/{id}", method=RequestMethod.GET)
-	public String koopBootje(@PathVariable long id, HttpServletResponse response) throws IOException{
+	public String koopBootje(@PathVariable long id, HttpServletResponse response, HttpServletRequest request) throws IOException{
 		Bootje b = repo.findOne(id);
 		if(b == null || b.isVerkocht()){
 			response.sendError(404, "Ongeldig bootje");
 			return null;
 		}
 		else{
-			Spel s = spelRepo.findOne(1l);
+			//Default id voor het geval we nog random willen kijken
+			long spelId = 1l;
+			
+			//Vraag het id van het spel op uit de session
+			HttpSession session = request.getSession();
+			Object idObj = session.getAttribute("spelId");
+			if(idObj != null){
+				spelId = (long)idObj;
+			}
+			Spel s = spelRepo.findOne(spelId);
 			Speler speler = s.getHuidigeSpeler();
 			if(speler.koopBootje(b)){
 				b.setVerkocht(true);
@@ -197,8 +217,19 @@ public class BootjesController {
 	}
 	
 	@RequestMapping("/bord")
-	public String showBord(Model model){
-		List<Tegel> alleTegels = spelRepo.findOne(1l).getAlleTegels();
+	public String showBord(Model model, HttpServletRequest request){
+		//Default id voor het geval we nog random willen kijken
+		long spelId = 1l;
+		
+		//Vraag het id van het spel op uit de session
+		HttpSession session = request.getSession();
+		Object idObj = session.getAttribute("spelId");
+		if(idObj != null){
+			spelId = (long)idObj;
+		}
+		
+		
+		List<Tegel> alleTegels = spelRepo.findOne(spelId).getAlleTegels();
 		
 		int index = getIndexHuidigeTegel();
 		if(index == 13){
@@ -217,6 +248,9 @@ public class BootjesController {
 			model.addAttribute("tegelsOpBord", tegelsOpBord);
 			model.addAttribute("huidigeTegel", huidigeTegel);
 			model.addAttribute("tegelsOpStapel", tegelsOpStapel);
+			
+			model.addAttribute("spelId", spelId);
+			model.addAttribute("spelers", spelRepo.findOne(spelId).getSpelers());
 		}
 			
 		return "bord";

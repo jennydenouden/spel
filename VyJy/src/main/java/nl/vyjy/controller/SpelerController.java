@@ -2,8 +2,11 @@ package nl.vyjy.controller;
 
 
 import java.util.ArrayList;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import nl.vyjy.Speler;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,23 +14,33 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import nl.vyjy.Spel;
+import nl.vyjy.Speler;
+
 @Controller
 public class SpelerController {
     
     @Autowired
     private SpelerRepository repo;
     
+    @Autowired
+    private SpelRepository spelRepo;
+    
     @RequestMapping("/speler")
-    public String showSpeler(Model model){
-        
-        if(repo.count() == 0){
-            ArrayList<Speler> spelers = getAllSpelers();
-            for(Speler s : spelers){
-                    repo.save(s);
-            }
-        }
-        
-        model.addAttribute("spelers", repo.findAll());
+    public String showSpeler(Model model, HttpServletRequest request){
+    	//Default id voor het geval we nog random willen kijken
+		long spelId = 1l;
+		
+		//Vraag het id van het spel op uit de session
+		HttpSession session = request.getSession();
+		Object idObj = session.getAttribute("spelId");
+		if(idObj != null){
+			spelId = (long)idObj;
+		}
+    	
+		//Vraag het juiste spel op
+		Spel s = spelRepo.findOne(spelId);
+    	model.addAttribute("spelers", s.getSpelers());
         return "showSpeler";
     }
     
