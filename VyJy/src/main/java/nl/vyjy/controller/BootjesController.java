@@ -41,8 +41,15 @@ public class BootjesController {
 	private TegelRepository tegelRepo;
 	
 	@RequestMapping("/login")
-	public String login(){
-		return "login";
+	public String login(HttpServletRequest request){
+		String result = "login";
+		
+		HttpSession session = request.getSession();
+		if(session.getAttribute("naam") != null){
+			result = "redirect:/start";
+		}
+		
+		return result;
 	}
 	
 	@RequestMapping(value = "/start", method = RequestMethod.POST )
