@@ -107,9 +107,6 @@ public class BootjesController {
 		return "redirect:/start";
 	}
 	
-	/*
-	 * Hier ga je heen als je op spel n link klikt
-	 */
 	@RequestMapping(value = "/spel/{id}/maakspeler", method = RequestMethod.GET)
 	public String createPlayer(@PathVariable long id, HttpServletRequest request, Model model){
 		
@@ -133,12 +130,19 @@ public class BootjesController {
 		else{
 			Spel s = spelRepo.findOne(id);
 			List<Speler> spelers = s.getSpelers();
-	
-			Speler nieuweSpeler = new Speler(naam);
-			spelers.add(nieuweSpeler);
-			if(spelers.size() == 1){
-				s.setHuidigeSpeler(nieuweSpeler);
+			
+			Object spelerId = session.getAttribute("spelerId");
+			if(spelerId == null){
+				//Speler bestaat nog niet
+				Speler nieuweSpeler = new Speler(naam);
+				spelers.add(nieuweSpeler);
+				if(spelers.size() == 1){
+					s.setHuidigeSpeler(nieuweSpeler);
+				}
+				
+				session.setAttribute("spelerId", nieuweSpeler.getId());
 			}
+			
 			spelRepo.save(s);
 			
 			result = "redirect:/start";
