@@ -6,6 +6,21 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Alle bootjes</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+ $( function() {
+   $( "#menu" ).menu({
+     items: "> :not(.ui-widget-header)"
+   });
+ } );
+ </script>
+ <style>
+ .ui-menu { width: 200px; }
+ .ui-widget-header { padding: 0.2em; }
+ </style>
 </head>
 <body>
 <h1>Alle bootjes in het systeem:</h1>
@@ -20,6 +35,14 @@
 	</tr>
 </table>
 </p>
+
+<ul id="menu">
+  <li class="ui-widget-header"><div>Menu</div></li>
+  <li><nav id="/speler">Inventaris</nav></li>
+  <li><nav id="/bord">Bord</nav></li>
+  <li><nav id="/bootjes">Bootjeswinkel</nav></li>
+  <li><nav id="/bordJenny">Bord Jenny</nav>
+</ul>
 
 <script>
 	$(document).ready(function(){
@@ -60,6 +83,15 @@
 			//Voeg functie toe die dingen doet als je op een rij klikt
 			$("td").click(clickfunctie);
 		});		
+		
+		
+		//Voeg functionaliteit toe aan de menubalk
+		$("nav").click(function(){
+			console.log("Je klikte op " + $(this).attr("id"));
+			window.location = $(this).attr("id");
+		});
+		
+		
 	});
 </script>
 
