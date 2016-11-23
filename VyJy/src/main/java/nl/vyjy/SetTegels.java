@@ -1,9 +1,13 @@
 package nl.vyjy;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
-import nl.vyjy.Windstreek.Ondergrond;
 
 /*
  * Deze klasse is alleen bedoeld om een verzameling terug te geven met alle bestaande tegels in het spel.
@@ -13,42 +17,48 @@ public class SetTegels {
 	/*
 	 * For now een versimpelde lijst met alleen water en paadjes, en niet eens alle opties daaruit.
 	 */
-	public static ArrayList<Tegel> getAlleTegels(){
+	public static ArrayList<Tegel> getAlleTegels() throws IOException{
 		ArrayList<Tegel> alleTegels = new ArrayList<>();
 		
 		Tegel t;
-		//1x pad pad pad pad
-		t = new Tegel(new Windstreek(Ondergrond.BRUG), new Windstreek(Ondergrond.BRUG), new Windstreek(Ondergrond.BRUG), new Windstreek(Ondergrond.BRUG));
-		alleTegels.add(t);
-		
-		//3x pad pad pad water
-		for(int i = 0; i < 3; i++){
-			t = new Tegel(new Windstreek(Ondergrond.BRUG), new Windstreek(Ondergrond.BRUG), new Windstreek(Ondergrond.BRUG), new Windstreek(Ondergrond.WATER));
-			alleTegels.add(t);
-		}
-		
-		//5x pad water pad water
-		for(int i = 0; i < 5; i++){
-			t = new Tegel(new Windstreek(Ondergrond.BRUG), new Windstreek(Ondergrond.WATER), new Windstreek(Ondergrond.BRUG), new Windstreek(Ondergrond.WATER));
-			alleTegels.add(t);
-		}
-		
-		//2x pad water water water
-		for(int i = 0; i < 2; i++){
-			t = new Tegel(new Windstreek(Ondergrond.BRUG), new Windstreek(Ondergrond.WATER), new Windstreek(Ondergrond.WATER), new Windstreek(Ondergrond.WATER));
-			alleTegels.add(t);
-		}
-		
-		//2x water water water water
-		for(int i = 0; i < 2; i++){
-			t = new Tegel(new Windstreek(Ondergrond.WATER), new Windstreek(Ondergrond.WATER), new Windstreek(Ondergrond.WATER), new Windstreek(Ondergrond.WATER));
-			alleTegels.add(t);
-		}
-		
-		Collections.shuffle(alleTegels);
-		
-		
-		return alleTegels;
-	}
+                
+//                for(image in directory){
+                    t = new Tegel("/image/tegels/wwww.png");
+                    // uiteindelijke format: img.src = '/images/tegels/wwww.png';
+                    alleTegels.add(t);
+                    t = new Tegel("/image/tegels/wwwl.png");
+                    alleTegels.add(t);
+//                }
 	
+		Collections.shuffle(alleTegels);
+		return alleTegels;
+        }
+        
+        // maakt een lijst van alle bestanden in "path" in string formaat
+        public List<String> getResourceFiles( String path ) throws IOException {
+            List<String> filenames = new ArrayList<>();
+
+            try(
+              InputStream in = getResourceAsStream( path );
+              BufferedReader br = new BufferedReader( new InputStreamReader( in ) ) ) {
+              String resource;
+
+              while( (resource = br.readLine()) != null ) {
+                filenames.add( resource );
+              }
+            }
+
+            return filenames;
+          }
+
+          private InputStream getResourceAsStream( String resource ) {
+            final InputStream in
+              = getContextClassLoader().getResourceAsStream( resource );
+
+            return in == null ? getClass().getResourceAsStream( resource ) : in;
+          }
+
+          private ClassLoader getContextClassLoader() {
+            return Thread.currentThread().getContextClassLoader();
+        }
 }
