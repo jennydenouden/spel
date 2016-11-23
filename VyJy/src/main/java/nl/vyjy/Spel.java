@@ -63,7 +63,7 @@ public class Spel {
 		this.spelers = spelers;
 	}
 
-	@OneToMany
+	@OneToMany(cascade=CascadeType.ALL) 
 	@JoinColumn(name = "spel_id")
 	public List<Tegel> getAlleTegels() {
 		return alleTegels;
@@ -91,6 +91,21 @@ public class Spel {
 
 	public void setBootjesWinkel(BootjesWinkel bootjesWinkel) {
 		this.bootjesWinkel = bootjesWinkel;
+	}
+	
+	public String toString(){
+		String result = "Spel tussen ";
+		if(spelers.size()>0){
+			for(int i = 0; i < spelers.size()-1; i++){
+				result += spelers.get(i).getName() + " & ";
+			}
+			
+			result += spelers.get(spelers.size()-1).getName();
+		}
+		else{
+			result = "Er zijn nog geen spelers in dit spel";
+		}
+		return result;
 	}
 	
 }

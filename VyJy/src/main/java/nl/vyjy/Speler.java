@@ -117,4 +117,8 @@ public class Speler {
     	}
     	return result + "";
     }
+    
+    public String toString(){
+    	return this.name;
+    }
 }
