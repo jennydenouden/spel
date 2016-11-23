@@ -244,7 +244,7 @@ public class BootjesController {
 		}
 	}
 	
-	@RequestMapping("/bord")
+	@RequestMapping("/bordJenny")
 	public String showBord(Model model, HttpServletRequest request){
 		//Default id voor het geval we nog random willen kijken
 		long spelId = 1l;
