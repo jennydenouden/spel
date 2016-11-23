@@ -18,24 +18,24 @@ public class SetTegels {
 		
 		Tegel t;
 		//1x pad pad pad pad
-		t = new Tegel(new Windstreek(Ondergrond.PAD), new Windstreek(Ondergrond.PAD), new Windstreek(Ondergrond.PAD), new Windstreek(Ondergrond.PAD));
+		t = new Tegel(new Windstreek(Ondergrond.BRUG), new Windstreek(Ondergrond.BRUG), new Windstreek(Ondergrond.BRUG), new Windstreek(Ondergrond.BRUG));
 		alleTegels.add(t);
 		
 		//3x pad pad pad water
 		for(int i = 0; i < 3; i++){
-			t = new Tegel(new Windstreek(Ondergrond.PAD), new Windstreek(Ondergrond.PAD), new Windstreek(Ondergrond.PAD), new Windstreek(Ondergrond.WATER));
+			t = new Tegel(new Windstreek(Ondergrond.BRUG), new Windstreek(Ondergrond.BRUG), new Windstreek(Ondergrond.BRUG), new Windstreek(Ondergrond.WATER));
 			alleTegels.add(t);
 		}
 		
 		//5x pad water pad water
 		for(int i = 0; i < 5; i++){
-			t = new Tegel(new Windstreek(Ondergrond.PAD), new Windstreek(Ondergrond.WATER), new Windstreek(Ondergrond.PAD), new Windstreek(Ondergrond.WATER));
+			t = new Tegel(new Windstreek(Ondergrond.BRUG), new Windstreek(Ondergrond.WATER), new Windstreek(Ondergrond.BRUG), new Windstreek(Ondergrond.WATER));
 			alleTegels.add(t);
 		}
 		
 		//2x pad water water water
 		for(int i = 0; i < 2; i++){
-			t = new Tegel(new Windstreek(Ondergrond.PAD), new Windstreek(Ondergrond.WATER), new Windstreek(Ondergrond.WATER), new Windstreek(Ondergrond.WATER));
+			t = new Tegel(new Windstreek(Ondergrond.BRUG), new Windstreek(Ondergrond.WATER), new Windstreek(Ondergrond.WATER), new Windstreek(Ondergrond.WATER));
 			alleTegels.add(t);
 		}
 		
