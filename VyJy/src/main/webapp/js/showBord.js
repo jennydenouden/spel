@@ -3,6 +3,7 @@ function draw(){
 	var plaatjes = [];
 	$.get("/tegelsOpBord", function(kolommen){
 		
+		//Vul plaatjes met de locaties van de tegel pngs
 		for(var i = 0; i < kolommen.length ; i++){	
 			plaatjes[i] = [];
 			//console.log(kolommen[i]);
@@ -23,8 +24,9 @@ function draw(){
 	        var tileSize = canvasWidth / gridSize;
 	        
 	        for(var kolom = 0; kolom < gridSize; kolom++){
-	        	for(var rij=0; rij < gridSize; rij++){     		
-	        		var img = {plaatje : new Image(), x : kolom * tileSize, y : rij * tileSize};
+	        	for(var rij=0; rij < gridSize; rij++){     	
+	        		var plaatje = new Image();
+	        		var img = {plaatje : plaatje, x : kolom * tileSize, y : rij * tileSize};
 	        		img.x = (kolom*tileSize);
 	        		img.y = (rij * tileSize);
 	        		img.plaatje.src = plaatjes[kolom][rij];
@@ -35,8 +37,20 @@ function draw(){
 
 	        	}
 	        }
+	        
+	        
+	        $("#bordGrid").click(function(event){
+				console.log("klik op (x: "+ event.clientX + ", y: "+ event.clientY + ")");
+				var berekendeKolom = Math.floor((event.pageX - this.offsetLeft) / (tileSize+1));
+				var berekendeRij = Math.floor((event.pageY - this.offsetTop) / (tileSize+1));
+				console.log("klik op het " + berekendeKolom + "e vakje van links, en " + berekendeRij + "e vakje van boven");
+				
+				//hier moet je dan zo'n post methode doen dan wss
+				
+			});
 	      
 	    }
+	    
 		
 	});
 	

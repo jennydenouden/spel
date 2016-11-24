@@ -196,7 +196,7 @@ public class BootjesController {
 		
 		List<Tegel> alleTegels = spelRepo.findOne(spelId).getAlleTegels();
 		
-		int index = getIndexHuidigeTegel();
+		int index = getIndexHuidigeTegel(request);
 		if(index == 13){
 			model.addAttribute("tegelsOpBord", alleTegels);
 			model.addAttribute("huidigeTegel", null);
@@ -246,9 +246,9 @@ public class BootjesController {
 	 * worden gesplitst in tegels op het bord, de huidige tegel, en tegels
 	 * op de stapel.
 	 */
-	private int getIndexHuidigeTegel(){
+	public int getIndexHuidigeTegel(HttpServletRequest request){
 		
-		Spel s = spelRepo.findOne(1l);
+		Spel s = spelRepo.findOne(ControllerMethodes.getSpelId(request));
 		List<Tegel> tegels = s.getAlleTegels();
 		int result = tegels.size();
 		

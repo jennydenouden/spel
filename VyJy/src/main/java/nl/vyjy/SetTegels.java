@@ -27,7 +27,7 @@ public class SetTegels {
          * cmd
          * dir /b >output.txt
 	 */
-	public static ArrayList<Tegel> getAlleTegels() throws IOException{
+	public static ArrayList<Tegel> getAlleTegels(){
             ArrayList<String> plaatjes = new ArrayList<>(Arrays.asList("bbbb.png",
                 "bbbb_22.png",
                 "bbbw - Copy (2).png",

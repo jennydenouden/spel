@@ -20,7 +20,7 @@ public class Tegel {
         
 	public Tegel(){
 		this.gespeeld = false;
-		this.plaatje = "/images/leegvakje.jpg";
+		this.plaatje = "/images/tegels/leegvakje.jpg";
 	}
 
 	@Id

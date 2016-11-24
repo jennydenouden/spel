@@ -18,6 +18,7 @@ import nl.vyjy.Bootje;
 import nl.vyjy.BordKolom;
 import nl.vyjy.Spel;
 import nl.vyjy.Speler;
+import nl.vyjy.Tegel;
 
 @Controller
 public class ControllerMethodes {
@@ -84,6 +85,17 @@ public class ControllerMethodes {
 		Spel spel = spelRepo.findOne(getSpelId(request));
 		return spel.getBord();
 	}
+	
+	@RequestMapping(value  = "/zetTegelOpBord", method = RequestMethod.POST)
+	public @ResponseBody Tegel zetTegelOpBord(int kolom, int rij, HttpServletRequest request){
+		//Pak maar gewoon de huidige tegel, I guess
+		
+		
+		return null;
+	}
+	
+	
+	
 	
 	//Methode om het juiste spel uit de database te vissen
 	public static long getSpelId(HttpServletRequest request){
