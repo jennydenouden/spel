@@ -14,18 +14,26 @@ public class Tegel {
 	private Windstreek noord, oost, zuid, west;
 	private long id;
 	private boolean gespeeld;
+	private String plaatje;
 	
-	public Tegel(Windstreek noord, Windstreek oost, Windstreek zuid, Windstreek west){
+	public Tegel(Windstreek noord, Windstreek oost, Windstreek zuid, Windstreek west, String plaatje){
 		this.noord = noord;
 		this.oost = oost;
 		this.zuid = zuid;
 		this.west = west;
+		this.gespeeld = false;
+		this.plaatje = plaatje;
+	}
+	
+	public Tegel(String plaatje){
+		this.plaatje = plaatje;
 		this.gespeeld = false;
 	}
 	
 	//Default constructor voor Tegel, omdat dat moet van hibernate
 	public Tegel(){	
 		this.gespeeld = false;
+		this.plaatje = "/images/leegvakje.jpg";
 	}
 
 	@Id
@@ -88,6 +96,14 @@ public class Tegel {
 
 	public void setGespeeld(boolean gespeeld) {
 		this.gespeeld = gespeeld;
+	}
+
+	public String getPlaatje() {
+		return plaatje;
+	}
+
+	public void setPlaatje(String plaatje) {
+		this.plaatje = plaatje;
 	}
 	
 	

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -221,12 +222,21 @@ public class BootjesController {
 	}
 	
 	@RequestMapping(value = "/leg/{id}")
-	public String legTegel(@PathVariable long id){
+	public String legTegel(@PathVariable long id, HttpServletRequest request){
 		Tegel t = tegelRepo.findOne(id);
 		t.setGespeeld(true);
 		tegelRepo.save(t);
 		
-		return "redirect:/bord";
+		//TODO: Dit is lelijk en nutteloos so far, maar dan kan ik iig iets testen
+		Spel s = spelRepo.findOne(ControllerMethodes.getSpelId(request));
+		int kolom, rij;
+		Random random = new Random();
+		kolom = random.nextInt(25);
+		rij = random.nextInt(25);
+		s.zetTegel(t, kolom, rij);
+		spelRepo.save(s);
+		
+		return "redirect:/bordJenny";
 	}
 	
 	
