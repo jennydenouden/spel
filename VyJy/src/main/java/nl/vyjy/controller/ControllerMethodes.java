@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import nl.vyjy.Bootje;
+import nl.vyjy.BordKolom;
 import nl.vyjy.Spel;
 import nl.vyjy.Speler;
 
@@ -78,13 +79,14 @@ public class ControllerMethodes {
 		}
 	}
 
-	
-	
-	
-	
+	@RequestMapping("/tegelsOpBord")
+	public @ResponseBody Iterable<BordKolom> getTegelsOpBord(HttpServletRequest request){
+		Spel spel = spelRepo.findOne(getSpelId(request));
+		return spel.getBord();
+	}
 	
 	//Methode om het juiste spel uit de database te vissen
-	public long getSpelId(HttpServletRequest request){
+	public static long getSpelId(HttpServletRequest request){
 		//Default id voor het geval we nog random willen kijken
 		long spelId = 1l;
 		
