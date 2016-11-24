@@ -13,10 +13,10 @@ public class Tegel {
 
 	private long id;
 	private boolean gespeeld;
-        private String image;
+        private String plaatje;
 	
         public Tegel(String image){
-                this.image = image;
+                this.plaatje = image;
 		this.gespeeld = false;
 	}
         
@@ -42,11 +42,11 @@ public class Tegel {
 		this.gespeeld = gespeeld;
 	}	
 
-    public String getImage() {
-        return image;
+    public String getPlaatje() {
+        return plaatje;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setPlaatje(String plaatje) {
+        this.plaatje = plaatje;
     }
 }
