@@ -85,6 +85,7 @@ public class BootjesController {
 		ArrayList<Tegel> tegels = SetTegels.getAlleTegels();
 		s.setAlleTegels(tegels);
 		spelRepo.save(s);
+
 		
 		//voeg bootjeswinkel toe
 		BootjesWinkel b = new BootjesWinkel();
