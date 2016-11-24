@@ -16,6 +16,12 @@ import java.util.List;
 public class SetTegels {
 
 	/*
+	 * Iets in deze trant
+	 * private enum Ondergrond = {BRUG, WATER, LAND};
+	 * private enum Items = {BANAAN, SCHELP, VIS, NIKS};
+	 */
+	
+	/*
 	 * Een lijst van tegels van alle plaatjes in de tegels map
          * Deze lijst is verkregen via:
          * cmd
@@ -100,9 +106,46 @@ public class SetTegels {
                 alleTegels.add(t);
             }
 	
+
+	/*public static ArrayList<Tegel> getAlleTegels(){
+		ArrayList<Tegel> alleTegels = new ArrayList<>();
+		
+		Tegel t;
+		//1x pad pad pad pad
+		t = new Tegel(new Windstreek(Ondergrond.BRUG), new Windstreek(Ondergrond.BRUG), new Windstreek(Ondergrond.BRUG), new Windstreek(Ondergrond.BRUG), "images/tegels/bbbb.png");
+		alleTegels.add(t);
+		
+		//3x pad pad pad water
+		for(int i = 0; i < 3; i++){
+			t = new Tegel(new Windstreek(Ondergrond.BRUG), new Windstreek(Ondergrond.BRUG), new Windstreek(Ondergrond.BRUG), new Windstreek(Ondergrond.WATER), "images/tegels/bbbw.png");
+			alleTegels.add(t);
+		}
+		
+		//5x pad water pad water
+		for(int i = 0; i < 5; i++){
+			t = new Tegel(new Windstreek(Ondergrond.BRUG), new Windstreek(Ondergrond.WATER), new Windstreek(Ondergrond.BRUG), new Windstreek(Ondergrond.WATER), "images/tegels/bwbw_2.png");
+			alleTegels.add(t);
+		}
+		
+		//2x pad water water water
+		for(int i = 0; i < 2; i++){
+			t = new Tegel(new Windstreek(Ondergrond.BRUG), new Windstreek(Ondergrond.WATER), new Windstreek(Ondergrond.WATER), new Windstreek(Ondergrond.WATER), "images/tegels/bwww.png");
+			alleTegels.add(t);
+		}
+		
+		//2x water water water water
+		for(int i = 0; i < 2; i++){
+			t = new Tegel(new Windstreek(Ondergrond.WATER), new Windstreek(Ondergrond.WATER), new Windstreek(Ondergrond.WATER), new Windstreek(Ondergrond.WATER), "images/tegels/wwww.png");
+			alleTegels.add(t);
+		}*/
+		
+
 		Collections.shuffle(alleTegels);
 		return alleTegels;
         }
+
+
+
         
         // maakt een lijst van alle bestanden in "path" in string formaat
 //        public List<String> getResourceFiles( String path ) throws IOException {

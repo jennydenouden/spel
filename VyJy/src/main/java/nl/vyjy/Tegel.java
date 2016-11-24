@@ -1,27 +1,26 @@
 package nl.vyjy;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+
 
 @Entity
 public class Tegel {
 
 	private long id;
 	private boolean gespeeld;
-        private String plaatje;
+    private String plaatje;       
 	
-        public Tegel(String image){
-                this.plaatje = image;
+	public Tegel(String plaatje){
+		this.plaatje = plaatje;
 		this.gespeeld = false;
 	}
         
 	public Tegel(){
 		this.gespeeld = false;
+		this.plaatje = "/images/leegvakje.jpg";
 	}
 
 	@Id

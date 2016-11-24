@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -162,9 +163,6 @@ public class BootjesController {
 			
 			result = "redirect:/bord";
 		}
-	
-		
-		
 		return result;
 	}
 	
@@ -179,69 +177,8 @@ public class BootjesController {
 	 * showBootjes jsp file.
 	 */
 	@RequestMapping("/bootjes")
-	public String initBootjes(Model model, HttpServletRequest request){	
-		//Default id voor het geval we nog random willen kijken
-		long spelId = 1l;
-		
-		//Vraag het id van het spel op uit de session
-		HttpSession session = request.getSession();
-		Object idObj = session.getAttribute("spelId");
-		if(idObj != null){
-			spelId = (long)idObj;
-		}
-		
-		model.addAttribute("bootjeswinkel", spelRepo.findOne(spelId).getBootjesWinkel());
+	public String initBootjes(){	
 		return "showBootjes";
-	}
-	
-	
-	@RequestMapping(value="/koop/{id}", method=RequestMethod.GET)
-	public String koopBootje(@PathVariable long id, HttpServletResponse response, HttpServletRequest request) throws IOException{
-		Bootje b = repo.findOne(id);
-		if(b == null || b.isVerkocht()){
-			response.sendError(404, "Dat bootje bestaat niet");
-			return null;
-		}
-		else{
-			//Default id voor het geval we nog random willen kijken
-			long spelId = 1l;
-			
-			//Vraag het id van het spel op uit de session
-			HttpSession session = request.getSession();
-			Object idObj = session.getAttribute("spelId");
-			if(idObj != null){
-				spelId = (long)idObj;
-			}
-			Spel s = spelRepo.findOne(spelId);
-			Speler speler = s.getHuidigeSpeler();
-			Object idObjSpeler = session.getAttribute("spelerId");
-			if(idObjSpeler != null){
-				long spelerId = (long)idObjSpeler;
-				if(spelerId == speler.getId()){
-					
-					if(speler.koopBootje(b)){
-						b.setVerkocht(true);
-						repo.save(b);
-						//Werk de bootjeswinkel bij
-						s.getBootjesWinkel().koopBootje(b);
-						s.getBootjesWinkel().addBootje(getEersteOnverkochteBootje());
-						spelRepo.save(s);
-					}
-					else{
-						response.sendError(404, "Jij kan dit bootje niet betalen");
-						return null;
-					}
-				}
-				else{
-					response.sendError(404, "Jij bent niet aan de beurt.");
-					System.err.println("id van deze speler: " + spelerId + "\nid van de huidige speler: " + speler.getId());
-					return null;
-				}
-			}
-			
-			
-			return "redirect:/bootjes";
-		}
 	}
 	
 	@RequestMapping("/bordJenny")
@@ -285,12 +222,21 @@ public class BootjesController {
 	}
 	
 	@RequestMapping(value = "/leg/{id}")
-	public String legTegel(@PathVariable long id){
+	public String legTegel(@PathVariable long id, HttpServletRequest request){
 		Tegel t = tegelRepo.findOne(id);
 		t.setGespeeld(true);
 		tegelRepo.save(t);
 		
-		return "redirect:/bord";
+		//TODO: Dit is lelijk en nutteloos so far, maar dan kan ik iig iets testen
+		Spel s = spelRepo.findOne(ControllerMethodes.getSpelId(request));
+		int kolom, rij;
+		Random random = new Random();
+		kolom = random.nextInt(25);
+		rij = random.nextInt(25);
+		s.zetTegel(t, kolom, rij);
+		spelRepo.save(s);
+		
+		return "redirect:/bordJenny";
 	}
 	
 	
@@ -309,24 +255,6 @@ public class BootjesController {
 		for(int i = 0; i < tegels.size(); i++){
 			if(!tegels.get(i).isGespeeld()){
 				result = i;
-				break;
-			}
-		}
-		
-		return result;
-	}
-	
-	
-	/*
-	 * Geeft het eerste onverkochte bootje in de lijst met alle bootjes
-	 */
-	private Bootje getEersteOnverkochteBootje(){
-		Spel s = spelRepo.findOne(1l);
-		List<Bootje> bootjes = s.getAlleBootjes();
-		Bootje result = null;
-		for(Bootje b : bootjes){
-			if(!b.isVerkocht() && !s.getBootjesWinkel().getBootjesTeKoop().contains(b) ){
-				result = b;
 				break;
 			}
 		}

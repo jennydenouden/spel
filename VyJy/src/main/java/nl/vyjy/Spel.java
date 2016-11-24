@@ -15,12 +15,14 @@ import javax.persistence.OneToOne;
 @Entity
 public class Spel {
 	
+	public static final int BORDGROOTTE = 25;
+	
 	private List<Speler> spelers;
 	private List<Tegel> alleTegels;
 	private List<Bootje> alleBootjes;
 	private BootjesWinkel bootjesWinkel;
-	//TODO: Volgt later
-	//private Bord bord;
+	
+	private List<BordKolom> bord;
 	
 	private Speler huidigeSpeler;
 	private long id;
@@ -29,8 +31,16 @@ public class Spel {
 		this.spelers = new ArrayList<>();
 		this.alleTegels = new ArrayList<>();
 		this.alleBootjes = new ArrayList<>();
-		//Weggehaald, anders krijg ik een dubbele bootjeswinkel in de DB
-		//this.bootjesWinkel = new BootjesWinkel(4);
+		
+		//Bord wordt een 25 bij 25 lijst met lege tegels
+		this.bord = new ArrayList<>();
+		for(int i = 0; i < BORDGROOTTE; i++){
+			bord.add(new BordKolom());
+		}
+	}
+	
+	public void zetTegel(Tegel tegel, int kolomNr, int rijNr){
+		this.bord.get(kolomNr).add(rijNr, tegel);
 	}
 	
 	@OneToOne
@@ -91,6 +101,20 @@ public class Spel {
 
 	public void setBootjesWinkel(BootjesWinkel bootjesWinkel) {
 		this.bootjesWinkel = bootjesWinkel;
+	}
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "spel_id")	
+	public List<BordKolom> getBord() {
+		return bord;
+	}
+
+	public void setBord(List<BordKolom> bord) {
+		this.bord = bord;
+	}
+	
+	public static int getBordgrootte() {
+		return BORDGROOTTE;
 	}
 	
 	public String toString(){
