@@ -25,8 +25,7 @@ function draw(){
 	        var tileSize = canvasWidth / gridSize;
 	        
 	        for(var kolom = 0; kolom < gridSize; kolom++){
-	        	for(var rij=0; rij < gridSize; rij++){
-	        		
+	        	for(var rij=0; rij < gridSize; rij++){     		
 	        		var img = {plaatje : new Image(), x : kolom * tileSize, y : rij * tileSize};
 	        		img.x = (kolom*tileSize);
 	        		img.y = (rij * tileSize);
