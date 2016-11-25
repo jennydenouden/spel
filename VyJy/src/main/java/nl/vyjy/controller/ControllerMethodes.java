@@ -86,18 +86,24 @@ public class ControllerMethodes {
 		return spel.getBord();
 	}
 	
+	/*
+	 * Geeft de gespeelde tegel terug als de move succesvol was, anders geeft de methode null
+	 */
 	@RequestMapping(value  = "/zetTegelOpBord", method = RequestMethod.POST)
 	public @ResponseBody Tegel zetTegelOpBord(int kolom, int rij, HttpServletRequest request){
 		//Pak maar gewoon de huidige tegel, I guess
 		Spel spel = spelRepo.findOne(getSpelId(request));
 		Tegel huidigeTegel = spel.getHuidigeTegel();
+		Tegel result = null;
 		
-		spel.zetTegel(huidigeTegel, kolom, rij);
-		List<Tegel> alleTegels = spel.getAlleTegels();
-		spel.setHuidigeTegel(alleTegels.get(alleTegels.indexOf(huidigeTegel) + 1));
-		spelRepo.save(spel);
+		if(spel.zetTegel(huidigeTegel, kolom, rij)){;
+			List<Tegel> alleTegels = spel.getAlleTegels();
+			spel.setHuidigeTegel(alleTegels.get(alleTegels.indexOf(huidigeTegel) + 1));
+			spelRepo.save(spel);
+			result = huidigeTegel;
+		}
 		
-		return huidigeTegel;
+		return result;
 	}
 	
 	

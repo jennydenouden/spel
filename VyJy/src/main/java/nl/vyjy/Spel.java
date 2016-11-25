@@ -40,9 +40,19 @@ public class Spel {
 		}
 	}
 	
-	public void zetTegel(Tegel tegel, int kolomNr, int rijNr){
-		System.err.println("Zet die tegel op kolom " + kolomNr);
-		this.bord.get(kolomNr).add(rijNr, tegel);
+	/*
+	 * Zet de tegel op de aangegeven plek op het bord ALS daar nog geen andere
+	 * tegel staat. Als de move succesvol was, geeft hij true terug, anders false.
+	 */
+	public boolean zetTegel(Tegel tegel, int kolomNr, int rijNr){
+		boolean result= false;
+		//kijk of er al een tegel op die plek staat:
+		if(this.bord.get(kolomNr).getKolom().get(rijNr).isLegeTegel()){
+			this.bord.get(kolomNr).add(rijNr, tegel);
+			result = true;
+		}
+		
+		return result;
 	}
 	
 	@OneToOne

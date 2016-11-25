@@ -48,7 +48,6 @@ public class BordKolom {
 
 	public void add(int rijNr, Tegel tegel) {
 		this.kolom.set(rijNr, tegel);
-		
 	}
 	
 	public String toString(){
