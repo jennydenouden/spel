@@ -46,7 +46,9 @@ function draw(){
 				console.log("klik op het " + berekendeKolom + "e vakje van links, en " + berekendeRij + "e vakje van boven");
 				
 				//hier moet je dan zo'n post methode doen dan wss
-				
+				$.post("/zetTegelOpBord", {kolom: berekendeKolom, rij: berekendeRij}, function(result){
+					console.log("zet tegel " + result + " op hokje ("+ berekendeKolom + ", " + berekendeRij + ")");
+				});
 			});
 	      
 	    }

@@ -26,6 +26,7 @@ public class Spel {
 	
 	private Speler huidigeSpeler;
 	private long id;
+	private Tegel huidigeTegel;
 	
 	public Spel(){
 		this.spelers = new ArrayList<>();
@@ -40,6 +41,7 @@ public class Spel {
 	}
 	
 	public void zetTegel(Tegel tegel, int kolomNr, int rijNr){
+		System.err.println("Zet die tegel op kolom " + kolomNr);
 		this.bord.get(kolomNr).add(rijNr, tegel);
 	}
 	
@@ -130,6 +132,16 @@ public class Spel {
 			result = "Er zijn nog geen spelers in dit spel";
 		}
 		return result;
+	}
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "huidige_tegel")
+	public Tegel getHuidigeTegel() {
+		return huidigeTegel;
+	}
+
+	public void setHuidigeTegel(Tegel huidigeTegel) {
+		this.huidigeTegel = huidigeTegel;
 	}
 	
 }

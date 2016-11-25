@@ -84,6 +84,7 @@ public class BootjesController {
 		//voeg kaartjes toe
 		ArrayList<Tegel> tegels = SetTegels.getAlleTegels();
 		s.setAlleTegels(tegels);
+		s.setHuidigeTegel(tegels.get(0));
 		spelRepo.save(s);
 		
 		//voeg bootjeswinkel toe

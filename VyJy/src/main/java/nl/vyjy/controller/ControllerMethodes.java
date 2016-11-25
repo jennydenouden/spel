@@ -89,9 +89,15 @@ public class ControllerMethodes {
 	@RequestMapping(value  = "/zetTegelOpBord", method = RequestMethod.POST)
 	public @ResponseBody Tegel zetTegelOpBord(int kolom, int rij, HttpServletRequest request){
 		//Pak maar gewoon de huidige tegel, I guess
+		Spel spel = spelRepo.findOne(getSpelId(request));
+		Tegel huidigeTegel = spel.getHuidigeTegel();
 		
+		spel.zetTegel(huidigeTegel, kolom, rij);
+		List<Tegel> alleTegels = spel.getAlleTegels();
+		spel.setHuidigeTegel(alleTegels.get(alleTegels.indexOf(huidigeTegel) + 1));
+		spelRepo.save(spel);
 		
-		return null;
+		return huidigeTegel;
 	}
 	
 	
