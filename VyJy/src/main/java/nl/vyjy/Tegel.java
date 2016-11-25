@@ -21,12 +21,12 @@ public class Tegel {
         
 	public Tegel(){
 		this.gespeeld = false;
-		this.plaatje = "leegvakje.jpg";
+		this.plaatje = "/images/tegels/leegvakje.jpg";
 	}
 	
 	@Transient
 	public boolean isLegeTegel(){
-		return this.plaatje.equals("leegvakje.jpg");
+		return this.plaatje.equals("/images/tegels/leegvakje.jpg");
 	}
 
 	@Id

@@ -9,7 +9,7 @@ function draw(){
 			//console.log(kolommen[i]);
 			for(var j = 0 ; j < kolommen[i].kolom.length; j++){
 				//console.log(kolommen[i].kolom[j].plaatje);
-				plaatjes[i][j] = "/images/tegels/" + kolommen[i].kolom[j].plaatje;
+				plaatjes[i][j] = kolommen[i].kolom[j].plaatje;
 			}
 		}
 		
@@ -24,12 +24,13 @@ function draw(){
 	        var tileSize = canvasWidth / gridSize;
 	        
 	        for(var kolom = 0; kolom < gridSize; kolom++){
-	        	for(var rij=0; rij < gridSize; rij++){     	
+	        	for(var rij=0; rij < gridSize; rij++){     
+	        		console.log("url: " + plaatjes[kolom][rij]);
 	        		var plaatje = imgMap.get(plaatjes[kolom][rij]);
 	        		var img = {plaatje : plaatje, x : kolom * tileSize, y : rij * tileSize};
 	        		img.x = (kolom*tileSize);
 	        		img.y = (rij * tileSize);
-	        		img.plaatje.src = plaatjes[kolom][rij];
+	        		//img.plaatje.src = plaatjes[kolom][rij];
         			ctx.strokeRect(kolom*tileSize,rij*tileSize,tileSize,tileSize);
         			ctx.drawImage(img.plaatje, img.x, img.y, tileSize, tileSize);
 
@@ -46,12 +47,10 @@ function draw(){
 				$.post("/zetTegelOpBord", {kolom: berekendeKolom, rij: berekendeRij}, function(result){
 					//teken het plaatje op de gegeven index opnieuw
 					if(result !==  ""){
-						var plaatje = imgMap.get("/images/tegels/"+result.plaatje);
+						var plaatje = imgMap.get(result.plaatje);
 						var img = {plaatje : plaatje, x : berekendeKolom * tileSize, y : berekendeRij * tileSize};
 		        		img.x = (berekendeKolom *tileSize);
 		        		img.y = (berekendeRij * tileSize);
-		        		
-		        		
 	        			ctx.strokeRect(img.x, img.y, tileSize, tileSize);
 	        			ctx.drawImage(img.plaatje, img.x, img.y, tileSize, tileSize);
 					}
