@@ -25,7 +25,7 @@ function draw(){
 	        
 	        for(var kolom = 0; kolom < gridSize; kolom++){
 	        	for(var rij=0; rij < gridSize; rij++){     
-	        		console.log("url: " + plaatjes[kolom][rij]);
+	        		//console.log("url: " + plaatjes[kolom][rij]);
 	        		var plaatje = imgMap.get(plaatjes[kolom][rij]);
 	        		var img = {plaatje : plaatje, x : kolom * tileSize, y : rij * tileSize};
 	        		img.x = (kolom*tileSize);
