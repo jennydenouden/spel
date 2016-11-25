@@ -25,7 +25,7 @@ canvas {
 </style>
 </head>
 <body onload="draw();">
-	<canvas id="bordGrid" width="1000" height="1000"></canvas>
+	
 	
 	<ul id="menu">
 		<li class="ui-widget-header"><div>Menu</div></li>
@@ -35,14 +35,24 @@ canvas {
 		<li><nav id="/bordJenny">Bord Jenny</nav>
 	</ul>
 	
+	<canvas id="bordGrid" width="1000" height="1000"></canvas>
+	
 	<script>
 		$(document).ready(function(){
 			//Voeg functionaliteit toe aan de menubalk
 			$("nav").click(function(){
-				console.log("Je klikte op " + $(this).attr("id"));
 				window.location = $(this).attr("id");
 			});
 		});
+	</script>
+	
+	<script>
+	//$(document).ready(function(){
+	//	$("bordGrid").click(function(klik){
+	//		console.log("x: " + klik.clientX + ", y: " + klik.clientY);
+	//	});
+	//});	
+	
 	</script>
 </body>
 </html>

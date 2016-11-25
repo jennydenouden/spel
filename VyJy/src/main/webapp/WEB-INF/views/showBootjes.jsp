@@ -87,7 +87,7 @@
 		
 		//Voeg functionaliteit toe aan de menubalk
 		$("nav").click(function(){
-			console.log("Je klikte op " + $(this).attr("id"));
+			//console.log("Je klikte op " + $(this).attr("id"));
 			window.location = $(this).attr("id");
 		});
 		

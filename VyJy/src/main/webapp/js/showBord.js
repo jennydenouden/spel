@@ -3,12 +3,13 @@ function draw(){
 	var plaatjes = [];
 	$.get("/tegelsOpBord", function(kolommen){
 		
+		//Vul plaatjes met de locaties van de tegel pngs
 		for(var i = 0; i < kolommen.length ; i++){	
 			plaatjes[i] = [];
 			//console.log(kolommen[i]);
 			for(var j = 0 ; j < kolommen[i].kolom.length; j++){
 				//console.log(kolommen[i].kolom[j].plaatje);
-				plaatjes[i][j] = kolommen[i].kolom[j].plaatje;
+				plaatjes[i][j] = "/images/tegels/" + kolommen[i].kolom[j].plaatje;
 			}
 		}
 		
@@ -23,36 +24,63 @@ function draw(){
 	        var tileSize = canvasWidth / gridSize;
 	        
 	        for(var kolom = 0; kolom < gridSize; kolom++){
-	        	for(var rij=0; rij < gridSize; rij++){     		
-	        		var img = {plaatje : new Image(), x : kolom * tileSize, y : rij * tileSize};
+	        	for(var rij=0; rij < gridSize; rij++){     	
+	        		var plaatje = imgMap.get(plaatjes[kolom][rij]);
+	        		var img = {plaatje : plaatje, x : kolom * tileSize, y : rij * tileSize};
 	        		img.x = (kolom*tileSize);
 	        		img.y = (rij * tileSize);
 	        		img.plaatje.src = plaatjes[kolom][rij];
-	        		//console.log("kolom: " + img.x + ", rij: " +img.y);
         			ctx.strokeRect(kolom*tileSize,rij*tileSize,tileSize,tileSize);
-        			//console.log("kolom: " + img.x + ", rij: " +img.y);
         			ctx.drawImage(img.plaatje, img.x, img.y, tileSize, tileSize);
 
 	        	}
 	        }
+	        
+	        
+	        $("#bordGrid").click(function(event){
+				//console.log("klik op (x: "+ (event.pageX - this.offsetLeft) + ", y: "+ (event.pageY - this.offsetTop ) + ")");
+				var berekendeKolom = Math.min(Math.floor((event.pageX - this.offsetLeft) / (tileSize)), (gridSize-1));
+				var berekendeRij = Math.min(Math.floor((event.pageY - this.offsetTop) / (tileSize)), (gridSize-1));
+				//console.log("klik op het " + berekendeKolom + "e vakje van links, en " + berekendeRij + "e vakje van boven");
+				
+				$.post("/zetTegelOpBord", {kolom: berekendeKolom, rij: berekendeRij}, function(result){
+					//teken het plaatje op de gegeven index opnieuw
+					if(result !==  ""){
+						var plaatje = imgMap.get("/images/tegels/"+result.plaatje);
+						var img = {plaatje : plaatje, x : berekendeKolom * tileSize, y : berekendeRij * tileSize};
+		        		img.x = (berekendeKolom *tileSize);
+		        		img.y = (berekendeRij * tileSize);
+		        		
+		        		
+	        			ctx.strokeRect(img.x, img.y, tileSize, tileSize);
+	        			ctx.drawImage(img.plaatje, img.x, img.y, tileSize, tileSize);
+					}
+				});
+			});
 	      
 	    }
+	    
 		
 	});
 	
 	
 }
 
-//Zou moeten werken volgens Reindert maar so far no luck
-/*
+//Preload de plaatjes en zet ze in een map, zodat ik ze kan uitlezen
 function preload(arrayOfImages) {
-    $(arrayOfImages).each(function(){
-    	$('<img/>')[0].src = "/images/tegels/"+ this;
+	var imgMap = new Map();
+	$(arrayOfImages).each(function(){
+		var img = new Image();
+		img.src = "/images/tegels/"+ this;
+		imgMap.set("/images/tegels/"+ this, img);
     });
+	
+	return imgMap;
 }
 
-
-preload(["bbbb.png",
+//Slaat alle preloaded images op in een map
+var imgMap = 
+	preload(["bbbb.png",
 	"bbbb_22.png",
 	"bbbw - Copy (2).png",
 	"bbbw - Copy.png",
@@ -71,7 +99,6 @@ preload(["bbbb.png",
 	"bwbw_2.png",
 	"bwww - Copy.png",
 	"bwww.png",
-	"filenames.txt",
 	"lbbw - Copy.png",
 	"lbbw.png",
 	"lblb - Copy.png",
@@ -123,5 +150,6 @@ preload(["bbbb.png",
 	"lwww.png",
 	"tmp",
 	"wwww - Copy.png",
-	"wwww.png"]
-);*/
+	"wwww.png",
+	"leegvakje.jpg"]
+);

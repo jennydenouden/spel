@@ -26,6 +26,7 @@ public class Spel {
 	
 	private Speler huidigeSpeler;
 	private long id;
+	private Tegel huidigeTegel;
 	
 	public Spel(){
 		this.spelers = new ArrayList<>();
@@ -39,8 +40,19 @@ public class Spel {
 		}
 	}
 	
-	public void zetTegel(Tegel tegel, int kolomNr, int rijNr){
-		this.bord.get(kolomNr).add(rijNr, tegel);
+	/*
+	 * Zet de tegel op de aangegeven plek op het bord ALS daar nog geen andere
+	 * tegel staat. Als de move succesvol was, geeft hij true terug, anders false.
+	 */
+	public boolean zetTegel(Tegel tegel, int kolomNr, int rijNr){
+		boolean result= false;
+		//kijk of er al een tegel op die plek staat:
+		if(this.bord.get(kolomNr).getKolom().get(rijNr).isLegeTegel()){
+			this.bord.get(kolomNr).add(rijNr, tegel);
+			result = true;
+		}
+		
+		return result;
 	}
 	
 	@OneToOne
@@ -130,6 +142,16 @@ public class Spel {
 			result = "Er zijn nog geen spelers in dit spel";
 		}
 		return result;
+	}
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "huidige_tegel")
+	public Tegel getHuidigeTegel() {
+		return huidigeTegel;
+	}
+
+	public void setHuidigeTegel(Tegel huidigeTegel) {
+		this.huidigeTegel = huidigeTegel;
 	}
 	
 }

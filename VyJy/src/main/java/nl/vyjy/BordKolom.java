@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 
 @Entity
 public class BordKolom {
@@ -26,6 +27,7 @@ public class BordKolom {
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "kolom_id")
+	@OrderColumn
 	public List<Tegel> getKolom() {
 		return kolom;
 	}
@@ -46,6 +48,9 @@ public class BordKolom {
 
 	public void add(int rijNr, Tegel tegel) {
 		this.kolom.set(rijNr, tegel);
-		
+	}
+	
+	public String toString(){
+		return this.kolom.toString();
 	}
 }
