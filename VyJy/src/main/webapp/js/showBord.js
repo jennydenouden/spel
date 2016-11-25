@@ -9,7 +9,7 @@ function draw(){
 			//console.log(kolommen[i]);
 			for(var j = 0 ; j < kolommen[i].kolom.length; j++){
 				//console.log(kolommen[i].kolom[j].plaatje);
-				plaatjes[i][j] = kolommen[i].kolom[j].plaatje;
+				plaatjes[i][j] = "/images/tegels/" + kolommen[i].kolom[j].plaatje;
 			}
 		}
 		
@@ -40,9 +40,9 @@ function draw(){
 	        
 	        
 	        $("#bordGrid").click(function(event){
-				console.log("klik op (x: "+ event.clientX + ", y: "+ event.clientY + ")");
-				var berekendeKolom = Math.floor((event.pageX - this.offsetLeft) / (tileSize+1));
-				var berekendeRij = Math.floor((event.pageY - this.offsetTop) / (tileSize+1));
+				console.log("klik op (x: "+ (event.pageX - this.offsetLeft) + ", y: "+ (event.pageY - this.offsetTop ) + ")");
+				var berekendeKolom = Math.min(Math.floor((event.pageX - this.offsetLeft) / (tileSize)), (gridSize-1));
+				var berekendeRij = Math.min(Math.floor((event.pageY - this.offsetTop) / (tileSize)), (gridSize-1));
 				console.log("klik op het " + berekendeKolom + "e vakje van links, en " + berekendeRij + "e vakje van boven");
 				
 				//hier moet je dan zo'n post methode doen dan wss
