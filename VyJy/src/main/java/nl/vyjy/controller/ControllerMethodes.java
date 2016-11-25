@@ -96,11 +96,17 @@ public class ControllerMethodes {
 		Tegel huidigeTegel = spel.getHuidigeTegel();
 		Tegel result = null;
 		
-		if(spel.zetTegel(huidigeTegel, kolom, rij)){;
+		if(huidigeTegel != null && spel.zetTegel(huidigeTegel, kolom, rij)){;
 			List<Tegel> alleTegels = spel.getAlleTegels();
-			spel.setHuidigeTegel(alleTegels.get(alleTegels.indexOf(huidigeTegel) + 1));
+			int nieuweIndexHuidigeTegel = alleTegels.indexOf(huidigeTegel) + 1;
+			if(nieuweIndexHuidigeTegel < alleTegels.size()){
+				spel.setHuidigeTegel(alleTegels.get(nieuweIndexHuidigeTegel));
+				result = huidigeTegel;
+			}
+			else{
+				spel.setHuidigeTegel(null);
+			}
 			spelRepo.save(spel);
-			result = huidigeTegel;
 		}
 		
 		return result;
