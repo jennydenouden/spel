@@ -55,6 +55,7 @@
                 //uit de winkel mikt en een nieuwe boot in de winkel doet
                 $.post("/koopBootje", {id: id}, function (bootje) {
                     //Zorg dat het scherm wordt geupdate
+                    console.log("bootje: " + bootje);
                     if (bootje !== "") {
                         newElement = $("<tr id = " + bootje.id + "><td>" + "Bootje " + bootje.id + "<br></td>"
                                 + "<td>" + bootje.prijsBanaan + " bananen </td>"

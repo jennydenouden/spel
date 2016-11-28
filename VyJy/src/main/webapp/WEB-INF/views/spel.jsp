@@ -102,8 +102,8 @@
                                 $.post("/koopBootje", {id: id}, function (bootje) {
                                     //Zorg dat het scherm wordt geupdate
                                     if (bootje !== "") {
-                                        newElement = $(""
-                                                //"<tr id = " + bootje.id + "><td>" + "Bootje " + bootje.id + "<br></td>"
+                                        newElement = $("<tr id = " + bootje.id + ">"
+                                                //+ "<td>" + "Bootje " + bootje.id + "<br></td>"
                                                 + "<td>" + bootje.prijsBanaan + " b </td>"
                                                 + "<td>" + bootje.prijsVis + " v </td>"
                                                 + "<td>" + bootje.prijsSchelp + " s </td>"
