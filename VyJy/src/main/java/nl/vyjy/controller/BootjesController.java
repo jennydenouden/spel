@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -82,7 +83,9 @@ public class BootjesController {
 		//voeg kaartjes toe
 		ArrayList<Tegel> tegels = SetTegels.getAlleTegels();
 		s.setAlleTegels(tegels);
+		s.setHuidigeTegel(tegels.get(0));
 		spelRepo.save(s);
+
 		
 		//voeg bootjeswinkel toe
 		BootjesWinkel b = new BootjesWinkel();
@@ -161,12 +164,8 @@ public class BootjesController {
 			
 			result = "redirect:/bord";
 		}
-	
-		
-		
 		return result;
 	}
-	
 	
 	
 	
@@ -242,79 +241,17 @@ public class BootjesController {
 //			return "redirect:/bootjes";
 //		}
 //	}
-	
-	@RequestMapping("/bordJenny")
-	public String showBord(Model model, HttpServletRequest request){
-		//Default id voor het geval we nog random willen kijken
-		long spelId = 1l;
-		
-		//Vraag het id van het spel op uit de session
-		HttpSession session = request.getSession();
-		Object idObj = session.getAttribute("spelId");
-		if(idObj != null){
-			spelId = (long)idObj;
-		}
-		
-		
-		List<Tegel> alleTegels = spelRepo.findOne(spelId).getAlleTegels();
-		
-		int index = getIndexHuidigeTegel();
-		if(index == 13){
-			model.addAttribute("tegelsOpBord", alleTegels);
-			model.addAttribute("huidigeTegel", null);
-			model.addAttribute("tegelsOpStapel", new ArrayList<Tegel>());
-		}
-		else{
-			List<Tegel> tegelsOpBord = alleTegels.subList(0, index);
-			Tegel huidigeTegel = alleTegels.get(index);
-			List<Tegel> tegelsOpStapel = new ArrayList<>();
-			if(index < alleTegels.size()-1){
-				tegelsOpStapel= alleTegels.subList(index+1, alleTegels.size());
-			}
-			
-			model.addAttribute("tegelsOpBord", tegelsOpBord);
-			model.addAttribute("huidigeTegel", huidigeTegel);
-			model.addAttribute("tegelsOpStapel", tegelsOpStapel);
-			
-			model.addAttribute("spelId", spelId);
-			model.addAttribute("spelers", spelRepo.findOne(spelId).getSpelers());
-		}
-			
-		return "bord";
-	}
-	
-	@RequestMapping(value = "/leg/{id}")
-	public String legTegel(@PathVariable long id){
-		Tegel t = tegelRepo.findOne(id);
-		t.setGespeeld(true);
-		tegelRepo.save(t);
-		
-		return "redirect:/bord";
-	}
-	
-	
 	/*
-	 * Hulpmethode die de index van de huidige tegel (bovenste tegel op 
-	 * de stapel tegels) teruggeeft. Hiermee kan de verzameling tegels
-	 * worden gesplitst in tegels op het bord, de huidige tegel, en tegels
-	 * op de stapel.
+	 * Voegt de bootjes toe aan de database, als ze daar niet
+	 * al in zaten. Dit gebeurt wanneer men naar de URL /bootjes
+	 * surft. Vervolgens worden de bootjes weergegeven dmv de
+	 * showBootjes jsp file.
 	 */
-	private int getIndexHuidigeTegel(){
-		
-		Spel s = spelRepo.findOne(1l);
-		List<Tegel> tegels = s.getAlleTegels();
-		int result = tegels.size();
-		
-		for(int i = 0; i < tegels.size(); i++){
-			if(!tegels.get(i).isGespeeld()){
-				result = i;
-				break;
-			}
-		}
-		
-		return result;
+	@RequestMapping("/bootjes")
+	public String initBootjes(){	
+		return "showBootjes";
 	}
-	
+
 	
 	/*
 	 * Geeft het eerste onverkochte bootje in de lijst met alle bootjes

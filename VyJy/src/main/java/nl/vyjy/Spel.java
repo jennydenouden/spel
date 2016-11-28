@@ -15,22 +15,44 @@ import javax.persistence.OneToOne;
 @Entity
 public class Spel {
 	
+	public static final int BORDGROOTTE = 25;
+	
 	private List<Speler> spelers;
 	private List<Tegel> alleTegels;
 	private List<Bootje> alleBootjes;
 	private BootjesWinkel bootjesWinkel;
-	//TODO: Volgt later
-	//private Bord bord;
+	
+	private List<BordKolom> bord;
 	
 	private Speler huidigeSpeler;
 	private long id;
+	private Tegel huidigeTegel;
 	
 	public Spel(){
 		this.spelers = new ArrayList<>();
 		this.alleTegels = new ArrayList<>();
 		this.alleBootjes = new ArrayList<>();
-		//Weggehaald, anders krijg ik een dubbele bootjeswinkel in de DB
-		//this.bootjesWinkel = new BootjesWinkel(4);
+		
+		//Bord wordt een 25 bij 25 lijst met lege tegels
+		this.bord = new ArrayList<>();
+		for(int i = 0; i < BORDGROOTTE; i++){
+			bord.add(new BordKolom());
+		}
+	}
+	
+	/*
+	 * Zet de tegel op de aangegeven plek op het bord ALS daar nog geen andere
+	 * tegel staat. Als de move succesvol was, geeft hij true terug, anders false.
+	 */
+	public boolean zetTegel(Tegel tegel, int kolomNr, int rijNr){
+		boolean result= false;
+		//kijk of er al een tegel op die plek staat:
+		if(this.bord.get(kolomNr).getKolom().get(rijNr).isLegeTegel()){
+			this.bord.get(kolomNr).add(rijNr, tegel);
+			result = true;
+		}
+		
+		return result;
 	}
 	
 	@OneToOne
@@ -93,6 +115,20 @@ public class Spel {
 		this.bootjesWinkel = bootjesWinkel;
 	}
 	
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "spel_id")	
+	public List<BordKolom> getBord() {
+		return bord;
+	}
+
+	public void setBord(List<BordKolom> bord) {
+		this.bord = bord;
+	}
+	
+	public static int getBordgrootte() {
+		return BORDGROOTTE;
+	}
+	
 	public String toString(){
 		String result = "Spel tussen ";
 		if(spelers.size()>0){
@@ -106,6 +142,16 @@ public class Spel {
 			result = "Er zijn nog geen spelers in dit spel";
 		}
 		return result;
+	}
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "huidige_tegel")
+	public Tegel getHuidigeTegel() {
+		return huidigeTegel;
+	}
+
+	public void setHuidigeTegel(Tegel huidigeTegel) {
+		this.huidigeTegel = huidigeTegel;
 	}
 	
 }
