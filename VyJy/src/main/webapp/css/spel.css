@@ -17,11 +17,14 @@
     background: greenyellow;
     overflow: auto;
 }
-#kaartje {
+canvasKaartje {
     background: pink;
     overflow: auto
 }
 #winkel {
     background: palegoldenrod;
     overflow: auto
+}
+canvas {
+    width: 100%;
 }

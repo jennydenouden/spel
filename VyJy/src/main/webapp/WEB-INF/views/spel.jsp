@@ -1,3 +1,5 @@
+<%@page import="nl.vyjy.Spel"%>
+<%@page import="nl.vyjy.Tegel"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -6,7 +8,6 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-        <link rel="stylesheet" href="/resources/demos/style.css">
         <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         <script>
@@ -16,10 +17,11 @@
                 });
             });
         </script>
+        <script type="application/javascript" src="/js/spel.js"></script>
         <link href="<c:url value="css/spel.css" />" rel="stylesheet">
         <title>Spel</title>
     </head>
-    <body>
+    <body onload="draw();">
 
         <%-- De gehele pagina --%>
         <div id="wrapper">
@@ -64,6 +66,11 @@
                         </ul>
                         </p>
                     </c:forEach>
+                </div>
+                
+                <%-- De tegel die deze beurt gelegd moet worden --%>
+                <div id="canvasKaartje">
+                    <canvas id="huidigeTegel">Your browser doesn't support canvas</canvas>
                 </div>
 
                 <%-- De bootjeswinkel staat onder de spelers --%>
@@ -139,6 +146,7 @@
                         });
                     </script>
                 </div>
+
             </div>
 
             <%-- Het speelbord staat aan de linkerkant van het spel --%>

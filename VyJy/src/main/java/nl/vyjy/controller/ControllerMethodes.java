@@ -112,7 +112,12 @@ public class ControllerMethodes {
 		return result;
 	}
 	
-	
+	@RequestMapping(value = "/huidigeTegel")
+        public @ResponseBody Tegel getHuidigeTegel(HttpServletRequest request) {
+            Spel spel = spelRepo.findOne(getSpelId(request));
+            Tegel huidigeTegel = spel.getHuidigeTegel();
+            return huidigeTegel;
+        }
 	
 	
 	//Methode om het juiste spel uit de database te vissen
