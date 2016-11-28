@@ -42,8 +42,12 @@ public class BootjesController {
 	private TegelRepository tegelRepo;
 	
 	@RequestMapping("/start")
-	public String chooseGame(Model model){
+	public String chooseGame(Model model, HttpServletRequest request){
 		model.addAttribute("spellen", spelRepo.findAll());
+		
+		//Als er al een spel actief is: zet dat in het model
+		HttpSession session = request.getSession();
+		request.setAttribute("spelId", session.getAttribute("spelId"));
 		return "kiesgame";
 	}
 		
