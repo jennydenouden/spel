@@ -1,5 +1,24 @@
 function draw(){
     
+	//Zet de goede naam bij de huidige speler
+	$.get("/getHuidigeSpeler", function(speler){
+		var naam = speler.name;
+		console.log("speler : " + naam);
+		$("#huidigeSpeler").text(naam);
+	});
+	
+	
+	//Handel de wisselbeurt knop af
+	$("#wisselBeurt").click(function(){
+		$.post("/wisselBeurt", undefined, function(speler){
+			var naam = speler.name;
+			console.log("speler : " + naam);
+			$("#huidigeSpeler").text(naam);
+		})
+	});
+	
+	
+	//Teken bord
 	var plaatjes = [];
 	$.get("/tegelsOpBord", function(kolommen){
 		

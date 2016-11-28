@@ -13,10 +13,9 @@
 	<input type="submit" value="Nieuw spel">
 </form>
 <h4>Bestaande spellen</h4>
-Voeg hier een lijst toe met bestaande spellen.
 <ul>
 	<c:forEach items="${ spellen }" var="spel">
-		<li> <a href="/spel/${spel.id}/maakspeler">Spel ${spel.id }</a> : ${spel.toString() }</li>
+		<li> <a href="/spel/${spel.id}">Spel ${spel.id }</a> : ${spel.toString() } <a href = "/spel/${spel.id}/maakspeler"> + </a> </li>
 	</c:forEach>
 </ul>
 

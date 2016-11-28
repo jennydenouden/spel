@@ -41,30 +41,6 @@ public class BootjesController {
 	@Autowired
 	private TegelRepository tegelRepo;
 	
-	@RequestMapping("/login")
-	public String login(HttpServletRequest request){
-		String result = "login";
-		
-		HttpSession session = request.getSession();
-		if(session.getAttribute("naam") != null){
-			result = "redirect:/start";
-		}
-		
-		return result;
-	}
-	
-	@RequestMapping(value = "/start", method = RequestMethod.POST )
-	public String checkLogin(String naam, HttpServletRequest request){
-		HttpSession s = request.getSession(false);
-		if(s == null){
-			s = request.getSession();
-		}
-		
-		s.setAttribute("naam", naam);
-		
-		return "redirect:/start";
-	}
-	
 	@RequestMapping("/start")
 	public String chooseGame(Model model){
 		model.addAttribute("spellen", spelRepo.findAll());
@@ -87,7 +63,6 @@ public class BootjesController {
 		s.setHuidigeTegel(tegels.get(0));
 		spelRepo.save(s);
 
-		
 		//voeg bootjeswinkel toe
 		BootjesWinkel b = new BootjesWinkel();
 		b.setBootjesTeKoop(s.getAlleBootjes().subList(0, 4));	
@@ -98,12 +73,15 @@ public class BootjesController {
 	}
 	
 	@RequestMapping("/spel/{id}")
-	public @ResponseBody String joinGame(@PathVariable long id){
-		return "Join spel " + id + ", als dat bestaat";
+	public String joinGame(@PathVariable long id, HttpServletRequest request){
+		HttpSession session = request.getSession();
+		session.setAttribute("spelId", id);
+		return "redirect:/bord";
 	}
 	
 	/*
 	 * Dit is als je via de form een nieuwe speler maakt (wat je dus eigenlijk niet wil)
+	 * haha nu weer wel :(
 	 */
 	@RequestMapping(value = "/spel/{id}/nieuwespeler", method = RequestMethod.POST)
 	public String createdPlayer(String naam, @PathVariable long id){
@@ -121,62 +99,22 @@ public class BootjesController {
 	}
 	
 	/*
-	 * Dit doe je als je op de spel N link klikt in start
+	 * Speler toevoegen als je op het plusje klikt
 	 */
 	@RequestMapping(value = "/spel/{id}/maakspeler", method = RequestMethod.GET)
 	public String createPlayer(@PathVariable long id, HttpServletRequest request, Model model){
 		
-		String result;
-		
 		HttpSession session = request.getSession();
 		String naam = (String) session.getAttribute("naam");
-		//Er is geen session: je kunt random mensen toevoegen als je dat wil
-		//Je kunt dit niet zien aan session, die krijg je automagisch, maar als
-		//de naam null is, zijn ze nog niet bij login geweest
-		//
-		//Note dit is alleen voor nu, in het uiteindelijke spel wil je dit niet
-		//kunnen
-		if(naam == null){
-			model.addAttribute("gameid", id);
-			result = "maakspeler";
-		}
-		//Er is wel een session, voeg de huidige speler toe aan een spel
-		//Mss moet je nog checken of die al in een ander spel zit?/ die speler
-		//al bestaat idk.
-		else{
-			Spel s = spelRepo.findOne(id);
-			List<Speler> spelers = s.getSpelers();
-			
-			Object spelerId = session.getAttribute("spelerId");
-			if(spelerId == null){
-				//Speler bestaat nog niet
-				Speler nieuweSpeler = new Speler(naam);
-				spelers.add(nieuweSpeler);
-				if(spelers.size() == 1){
-					s.setHuidigeSpeler(nieuweSpeler);
-				}
-				
-				spelerRepo.save(nieuweSpeler);
-				session.setAttribute("spelerId", nieuweSpeler.getId());
-				session.setAttribute("spelId", id);
-			}
-			
-			spelRepo.save(s);
-			
-			result = "redirect:/bord";
-		}
-		return result;
+		model.addAttribute("gameid", id);
+		Spel s = spelRepo.findOne(id);
+		spelRepo.save(s);
+
+		return "maakspeler";
 	}
 	
-	
-	
-	
-	
 	/*
-	 * Voegt de bootjes toe aan de database, als ze daar niet
-	 * al in zaten. Dit gebeurt wanneer men naar de URL /bootjes
-	 * surft. Vervolgens worden de bootjes weergegeven dmv de
-	 * showBootjes jsp file.
+	 * Laat de bootjeswinkel zien
 	 */
 	@RequestMapping("/bootjes")
 	public String initBootjes(){	
@@ -222,25 +160,6 @@ public class BootjesController {
 			
 		return "bord";
 	}
-	
-	@RequestMapping(value = "/leg/{id}")
-	public String legTegel(@PathVariable long id, HttpServletRequest request){
-		Tegel t = tegelRepo.findOne(id);
-		t.setGespeeld(true);
-		tegelRepo.save(t);
-		
-		//TODO: Dit is lelijk en nutteloos so far, maar dan kan ik iig iets testen
-		Spel s = spelRepo.findOne(ControllerMethodes.getSpelId(request));
-		int kolom, rij;
-		Random random = new Random();
-		kolom = random.nextInt(25);
-		rij = random.nextInt(25);
-		s.zetTegel(t, kolom, rij);
-		spelRepo.save(s);
-		
-		return "redirect:/bordJenny";
-	}
-	
 	
 	/*
 	 * Hulpmethode die de index van de huidige tegel (bovenste tegel op 
