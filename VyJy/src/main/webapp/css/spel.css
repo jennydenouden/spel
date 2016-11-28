@@ -1,7 +1,12 @@
 #wrapper {
     width: 100%;
     border: 1px solid black;
+    background: lightgrey;
     overflow: auto;
+}
+#linkerkant {
+    width: 20%;
+    float: left;
 }
 #bord {
     width: 80%;
@@ -9,17 +14,14 @@
     float: right; 
 }
 #speler {
-    width: 20%;
     background: greenyellow;
-    float: left;
+    overflow: auto;
 }
 #kaartje {
-    width: 20%;
     background: pink;
     overflow: auto
 }
 #winkel {
-    width: 20%;
     background: palegoldenrod;
     overflow: auto
 }
