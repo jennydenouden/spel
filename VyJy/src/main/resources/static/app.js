@@ -2,8 +2,6 @@
 function startWebSocket(){
 	console.log("deze functie wordt aangeroepen");
 	connect();
-	sendName("Françoise");
-	disconnect();
 }
 
 
@@ -17,22 +15,31 @@ function connect() {
         stompClient.subscribe('/topic/something', function (greeting) {
             //Wat doe je als een message binnenkomt?
         	//showGreeting(JSON.parse(greeting.body).content);
-        	console.log("new message: " + greeting);
+        	console.log("new message van de server: " + JSON.parse(greeting.body).content);
         });
     });
+    
+    socket.onopen = function(){
+    	sendName("Anais");
+    	//disconnect();
+    };
+    
+    socket.onmessage = function(){
+    	console.log("krijg een bericht??? IDFK");
+    };
 }
 
 function disconnect() {
     if (stompClient != null) {
         stompClient.disconnect();
     }
-    setConnected(false);
+   // setConnected(false);
     console.log("Disconnected");
 }
 
 function sendName(naam) {
 	//Waarheen stuur je?
-    stompClient.send("/app/bla", {}, {'name': naam});
+    stompClient.send("/app/bla", {}, JSON.stringify({'name': naam}));
 }
 
 function showGreeting(message) {

@@ -46,33 +46,20 @@ public class ControllerMethodes {
 		else{
 			Spel s = spelRepo.findOne(getSpelId(request));
 			Speler speler = s.getHuidigeSpeler();
-			HttpSession session = request.getSession();
-			Object idObjSpeler = session.getAttribute("spelerId");
-			if(idObjSpeler != null){
-				long spelerId = (long)idObjSpeler;
-				if(spelerId == speler.getId()){
-					
-					if(speler.koopBootje(b)){
-						//Werk het bootje bij
-						b.setVerkocht(true);
-						bootjesRepo.save(b);
-						
-						//Werk de bootjeswinkel bij
-						s.getBootjesWinkel().koopBootje(b);
-						nieuwBootje = getEersteOnverkochteBootje(request);
-						s.getBootjesWinkel().addBootje(nieuwBootje);
-						spelRepo.save(s);
-					}
-					else{
-						response.sendError(404, "Jij kan dit bootje niet betalen");
-						return null;
-					}
-				}
-				else{
-					response.sendError(404, "Jij bent niet aan de beurt.");
-					//System.err.println("id van deze speler: " + spelerId + "\nid van de huidige speler: " + speler.getId());
-					return null;
-				}
+			if(speler.koopBootje(b)){
+				//Werk het bootje bij
+				b.setVerkocht(true);
+				bootjesRepo.save(b);
+				
+				//Werk de bootjeswinkel bij
+				s.getBootjesWinkel().koopBootje(b);
+				nieuwBootje = getEersteOnverkochteBootje(request);
+				s.getBootjesWinkel().addBootje(nieuwBootje);
+				spelRepo.save(s);
+			}
+			else{
+				response.sendError(404, "Jij kan dit bootje niet betalen");
+				return null;
 			}
 			
 			//Return het nieuwe bootje dat in de winkel komt?
@@ -110,6 +97,20 @@ public class ControllerMethodes {
 		}
 		
 		return result;
+	}
+	
+	@RequestMapping("/getHuidigeSpeler")
+	public @ResponseBody Speler getHuidigeSpeler(HttpServletRequest request){
+		Spel spel = spelRepo.findOne(getSpelId(request));
+		return spel.getHuidigeSpeler();
+	}
+	
+	@RequestMapping(value = "/wisselBeurt", method=RequestMethod.POST)
+	public @ResponseBody Speler wisselBeurt(HttpServletRequest request){
+		Spel spel = spelRepo.findOne(getSpelId(request));
+		Speler nieuweSpeler = spel.wisselBeurt();
+		spelRepo.save(spel);
+		return nieuweSpeler;
 	}
 	
 	

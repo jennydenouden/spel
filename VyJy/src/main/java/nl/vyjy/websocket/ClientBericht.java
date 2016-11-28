@@ -2,20 +2,20 @@ package nl.vyjy.websocket;
 
 public class ClientBericht {
 
-	private String bericht;
+	private String content;
 
     public ClientBericht() {
     }
 
-    public ClientBericht(String bericht) {
-        this.bericht = bericht;
+    public ClientBericht(String content) {
+        this.content = content;
     }
 
     public String getBericht() {
-        return bericht;
+        return content;
     }
 
     public void setBericht(String bericht) {
-        this.bericht = bericht;
+        this.content = bericht;
     }
 }

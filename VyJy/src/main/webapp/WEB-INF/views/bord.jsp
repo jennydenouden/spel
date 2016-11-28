@@ -15,7 +15,7 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <!-- Websocket imports -->
-<script src="/webjars/jquery/jquery.min.js"></script>
+<!-- <script src="/webjars/jquery/jquery.min.js"></script> -->
 <script src="/webjars/sockjs-client/sockjs.min.js"></script>
 <script src="/webjars/stomp-websocket/stomp.min.js"></script>
 <script src="/app.js"></script>

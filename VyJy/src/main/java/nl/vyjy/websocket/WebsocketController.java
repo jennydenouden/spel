@@ -16,6 +16,7 @@ public class WebsocketController {
 	@SendTo("/something")
 	public ServerBericht message(ClientBericht bericht) throws Exception{
 		//Ik weet nog niet wat hierin moet
+		System.err.println("Heee Ik heb iets gekregen van de client");
 		return new ServerBericht("bericht van de server");
 	}
 		
