@@ -1,5 +1,6 @@
 package nl.vyjy;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -35,6 +36,7 @@ public class Tegel {
     }
 
     @Transient
+    @JsonIgnore
     public boolean isLegeTegel() {
         return this.plaatje.equals("/images/tegels/leegvakje.jpg");
     }

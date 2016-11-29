@@ -67,7 +67,6 @@ function draw() {
                     //img.plaatje.src = plaatjes[kolom][rij];
 //                    ctx.strokeRect(kolom * tileSize, rij * tileSize, tileSize, tileSize);
                     ctx.drawImage(img.plaatje, img.x, img.y, tileSize, tileSize);
-
                 }
             }
 
@@ -85,8 +84,11 @@ function draw() {
                         var img = {plaatje: plaatje, x: berekendeKolom * tileSize, y: berekendeRij * tileSize};
                         img.x = (berekendeKolom * tileSize);
                         img.y = (berekendeRij * tileSize);
+                        var image = new Image();
+                        image = img.plaatje;
+                        console.log("print hier " + img.plaatje);
 //                        ctx.strokeRect(img.x, img.y, tileSize, tileSize);
-                        ctx.drawImage(img.plaatje, img.x, img.y, tileSize, tileSize);
+                        ctx.drawImage(image, img.x, img.y, tileSize, tileSize);
                     }
                 });
             });
