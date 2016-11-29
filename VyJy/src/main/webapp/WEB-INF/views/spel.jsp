@@ -90,15 +90,6 @@
                     </table>
                     </p>
 
-                    <%-- 
-                    <ul id="menu">
-                        <li class="ui-widget-header"><div>Menu</div></li>
-                        <li><nav id="/speler">Inventaris</nav></li>
-                        <li><nav id="/bord">Bord</nav></li>
-                        <li><nav id="/bootjes">Bootjeswinkel</nav></li>
-                        <li><nav id="/bordJenny">Bord Jenny</nav>
-                    </ul>--%>
-
                     <script>
                         $(document).ready(function () {
                             //Voeg click functie toe

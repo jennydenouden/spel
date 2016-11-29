@@ -1,21 +1,5 @@
 function draw() {
-    var canvas = document.getElementById("huidigeTegel");
-    if (canvas.getContext) {
-        canvas.height = canvas.width;
-        var ctx = canvas.getContext("2d");
-        $(document).ready(function () {
-            $.get("/huidigeTegel", function (tegel) {
-                console.log(tegel.plaatje);
-                var plaatje = tegel.plaatje;
-                var img = new Image();
-                img.src = plaatje;
-                img.onload = function () {
-                    ctx.drawImage(img, 0, 0, img.width, img.height, // source rectangle
-                            0, 0, canvas.width, canvas.height); // destination rectangle)
-                }
-            });
-        });
-    }
+        
     //Zet de goede naam bij de huidige speler
     $.get("/getHuidigeSpeler", function (speler) {
         var naam = speler.name;
@@ -30,9 +14,29 @@ function draw() {
             var naam = speler.name;
             console.log("speler : " + naam);
             $("#huidigeSpeler").text(naam);
-        })
+        });
     });
-
+    
+    // Teken huidige tegel
+    var canvasT = document.getElementById("huidigeTegel");
+    if (canvasT.getContext) {
+        canvasT.height = canvasT.width;
+        var ctxt = canvasT.getContext("2d");
+        $(document).ready(function () {
+            $.get("/huidigeTegel", function (tegel) {
+                console.log(tegel.plaatje);
+                var orientatie = tegel.orientatie;
+                var plaatje = tegel.plaatje;
+                var img = new Image();
+                img.src = plaatje;
+                img.onload = function () {
+                    ctxt.rotate(90 * orientatie * Math.PI/180); // draaien van de tegel
+                    ctxt.drawImage(img, 0, 0, img.width, img.height, // source rectangle
+                            0, 0, canvasT.width, canvasT.height); // destination rectangle)
+                };
+            });
+        });
+    }
 
     //Teken bord
     var plaatjes = [];
