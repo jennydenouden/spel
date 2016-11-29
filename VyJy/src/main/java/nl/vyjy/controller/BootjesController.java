@@ -78,7 +78,8 @@ public class BootjesController {
 	public String joinGame(@PathVariable long id, HttpServletRequest request){
 		HttpSession session = request.getSession();
 		session.setAttribute("spelId", id);
-		return "redirect:/bord";
+		//return "redirect:/bord";
+		return "redirect:/spel";
 	}
 	
 	/*
