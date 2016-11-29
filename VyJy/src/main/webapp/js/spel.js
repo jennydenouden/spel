@@ -16,6 +16,7 @@ function draw() {
             });
         });
     }
+
     //Zet de goede naam bij de huidige speler
     $.get("/getHuidigeSpeler", function (speler) {
         var naam = speler.name;
@@ -185,3 +186,11 @@ var imgMap =
             "wwww.png",
             "leegvakje.jpg"]
                 );
+
+
+function draaiTegel(){	
+	$.post("/draaiHuidigeTegel", undefined, function(tegel){
+		console.log("tegel: " + tegel.plaatje);
+	})
+};
+
