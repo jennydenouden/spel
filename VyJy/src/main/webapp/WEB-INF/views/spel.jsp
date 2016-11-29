@@ -31,6 +31,8 @@
 
                 <%-- Informatie over de spelers in dit spel --%>
                 <div id="speler">
+                    <strong> <span id = "huidigeSpeler">IEMAND</span> is aan de beurt</strong> <input type = "button" id = "wisselBeurt" value= "Geef de beurt door"> <br><br>
+                    
                     <h1>Spelers</h1>
                     <c:forEach items="${spelers}" var="s">
                         <hr>
@@ -67,7 +69,7 @@
                         </p>
                     </c:forEach>
                 </div>
-                
+
                 <%-- De tegel die deze beurt gelegd moet worden --%>
                 <div id="canvasKaartje">
                     <canvas id="huidigeTegel">Your browser doesn't support canvas</canvas>
@@ -111,9 +113,9 @@
                                     if (bootje !== "") {
                                         newElement = $("<tr id = " + bootje.id + ">"
                                                 //+ "<td>" + "Bootje " + bootje.id + "<br></td>"
-                                                + "<td>" + bootje.prijsBanaan + " b </td>"
-                                                + "<td>" + bootje.prijsVis + " v </td>"
-                                                + "<td>" + bootje.prijsSchelp + " s </td>"
+                                                + "<td>" + bootje.prijsBanaan + "</td>"
+                                                + "<td>" + bootje.prijsVis + " </td>"
+                                                + "<td>" + bootje.prijsSchelp + " </td>"
                                                 + "<td>" + bootje.waarde + "</td></tr>");
                                         $("#eersteRij").after(newElement);
                                         newElement.click(clickfunctie);
@@ -150,7 +152,18 @@
             </div>
 
             <%-- Het speelbord staat aan de linkerkant van het spel --%>
-            <div id="bord">Speelbord deel</div>
+            <div id="bord">
+                <canvas id="bordGrid" width="1000" height="1000"></canvas>
+
+                <script>
+                    $(document).ready(function () {
+                        //Voeg functionaliteit toe aan de menubalk
+                        $("nav").click(function () {
+                            window.location = $(this).attr("id");
+                        });
+                    });
+                </script>
+            </div>
         </div>
     </body>
 </html>
