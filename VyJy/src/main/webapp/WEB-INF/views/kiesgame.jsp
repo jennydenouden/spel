@@ -21,36 +21,56 @@ $( function() {
 <title>Kies een spel</title>
 </head>
 <body>
-<h3>Kies een bestaand spel, of maak een nieuw spel aan.</h3>
-<!--  Huidig spel weergeven, als er al een spel actief is -->
 
-<section>
-	<form method="post" action="/init">
-		<input type="submit" value="Nieuw spel">
-	</form>
+<section id="alles">
+	<h3>Kies een bestaand spel, of maak een nieuw spel aan.</h3>
+	<!--  Huidig spel weergeven, als er al een spel actief is -->
+	
+	
+	
+	<section>
+		<form method="post" action="/init">
+			<input type="submit" value="Nieuw spel" id="nieuwSpel">
+		</form>
+	</section>
+	
+	
+	<h4>Bestaande spellen</h4>	
+	<section id="accordion">
+		<c:forEach items="${ spellen }" var="spel">
+			<h3>
+				<c:if test="${ spelId == spel.id}">
+					<strong> Huidig spel: </strong>
+				</c:if>
+				Spel ${spel.id }
+			</h3>
+			<div>	
+				<p> ${spel.toString() } </p>
+				<!-- <form method="get" action="/spel/${spel.id}/maakspeler">
+					<input type = "submit" value="Voeg speler toe" class="button">
+				</form>
+				<form method="get" action="/spel/${spel.id}">
+					<input type = "submit" value="Ga dit spel binnen" class="button">
+				</form> -->
+				<input type="button" value = "Voeg speler toe" onclick= "voegSpelerToe(${spel.id})">
+				<input type="button" value = "Ga dit spel binnen" onclick= "gaSpelBinnen(${spel.id})">
+			</div>
+		</c:forEach>
+	</section>
+
 </section>
 
-
-<h4>Bestaande spellen</h4>	
-<section id="accordion">
-	<c:forEach items="${ spellen }" var="spel">
-		<h3>
-			<c:if test="${ spelId == spel.id}">
-				<strong> Huidig spel: </strong>
-			</c:if>
-			Spel ${spel.id }
-		</h3>
-		<div>	
-			<p> ${spel.toString() } </p>
-			<form method="get" action="/spel/${spel.id}/maakspeler">
-				<input type = "submit" value="Voeg speler toe">
-			</form>
-			<form method="get" action="/spel/${spel.id}">
-				<input type = "submit" value="Ga dit spel binnen">
-			</form>
-		</div>
-	</c:forEach>
-</section>
+<script>
+	function voegSpelerToe(id){
+		console.log("voeg speler toe");
+		window.location = "/spel/"+id+"/maakspeler";
+	}
+	
+	function gaSpelBinnen(id){
+		console.log("ga spel binnen");
+		window.location = "/spel/" + id;
+	}
+</script>
 
 
 </body>
