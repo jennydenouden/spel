@@ -9,7 +9,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -46,33 +45,20 @@ public class ControllerMethodes {
 		else{
 			Spel s = spelRepo.findOne(getSpelId(request));
 			Speler speler = s.getHuidigeSpeler();
-			HttpSession session = request.getSession();
-			Object idObjSpeler = session.getAttribute("spelerId");
-			if(idObjSpeler != null){
-				long spelerId = (long)idObjSpeler;
-				if(spelerId == speler.getId()){
-					
-					if(speler.koopBootje(b)){
-						//Werk het bootje bij
-						b.setVerkocht(true);
-						bootjesRepo.save(b);
-						
-						//Werk de bootjeswinkel bij
-						s.getBootjesWinkel().koopBootje(b);
-						nieuwBootje = getEersteOnverkochteBootje(request);
-						s.getBootjesWinkel().addBootje(nieuwBootje);
-						spelRepo.save(s);
-					}
-					else{
-						response.sendError(404, "Jij kan dit bootje niet betalen");
-						return null;
-					}
-				}
-				else{
-					response.sendError(404, "Jij bent niet aan de beurt.");
-					//System.err.println("id van deze speler: " + spelerId + "\nid van de huidige speler: " + speler.getId());
-					return null;
-				}
+			if(speler.koopBootje(b)){
+				//Werk het bootje bij
+				b.setVerkocht(true);
+				bootjesRepo.save(b);
+				
+				//Werk de bootjeswinkel bij
+				s.getBootjesWinkel().koopBootje(b);
+				nieuwBootje = getEersteOnverkochteBootje(request);
+				s.getBootjesWinkel().addBootje(nieuwBootje);
+				spelRepo.save(s);
+			}
+			else{
+				response.sendError(404, "Jij kan dit bootje niet betalen");
+				return null;
 			}
 			
 			//Return het nieuwe bootje dat in de winkel komt?
@@ -112,13 +98,29 @@ public class ControllerMethodes {
 		return result;
 	}
 	
+
 	@RequestMapping(value = "/huidigeTegel")
         public @ResponseBody Tegel getHuidigeTegel(HttpServletRequest request) {
             Spel spel = spelRepo.findOne(getSpelId(request));
             Tegel huidigeTegel = spel.getHuidigeTegel();
             return huidigeTegel;
         }
+
+	@RequestMapping("/getHuidigeSpeler")
+	public @ResponseBody Speler getHuidigeSpeler(HttpServletRequest request){
+		Spel spel = spelRepo.findOne(getSpelId(request));
+		return spel.getHuidigeSpeler();
+	}
 	
+	@RequestMapping(value = "/wisselBeurt", method=RequestMethod.POST)
+	public @ResponseBody Speler wisselBeurt(HttpServletRequest request){
+		Spel spel = spelRepo.findOne(getSpelId(request));
+		Speler nieuweSpeler = spel.wisselBeurt();
+		spelRepo.save(spel);
+		return nieuweSpeler;
+	}
+	
+		
 	
 	//Methode om het juiste spel uit de database te vissen
 	public static long getSpelId(HttpServletRequest request){

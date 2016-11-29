@@ -55,6 +55,19 @@ public class Spel {
 		return result;
 	}
 	
+	/*
+	 * Wissel de beurt: de volgende speler in de verzameling is aan de beurt
+	 */
+	public Speler wisselBeurt(){
+		int index = spelers.indexOf(huidigeSpeler);
+		int newIndex = (index + 1) % spelers.size();
+		
+		setHuidigeSpeler(spelers.get(newIndex));
+		//huidigeSpeler = spelers.get(newIndex);
+		
+		return huidigeSpeler;
+	}
+	
 	@OneToOne
 	@JoinColumn(name = "speler_id")
 	public Speler getHuidigeSpeler(){

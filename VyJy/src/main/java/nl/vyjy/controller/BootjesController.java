@@ -16,7 +16,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import nl.vyjy.Bootje;
 import nl.vyjy.BootjesWinkel;
@@ -40,33 +39,13 @@ public class BootjesController {
 	@Autowired
 	private TegelRepository tegelRepo;
 	
-	@RequestMapping("/login")
-	public String login(HttpServletRequest request){
-		String result = "login";
-		
-		HttpSession session = request.getSession();
-		if(session.getAttribute("naam") != null){
-			result = "redirect:/start";
-		}
-		
-		return result;
-	}
-	
-	@RequestMapping(value = "/start", method = RequestMethod.POST )
-	public String checkLogin(String naam, HttpServletRequest request){
-		HttpSession s = request.getSession(false);
-		if(s == null){
-			s = request.getSession();
-		}
-		
-		s.setAttribute("naam", naam);
-		
-		return "redirect:/start";
-	}
-	
 	@RequestMapping("/start")
-	public String chooseGame(Model model){
+	public String chooseGame(Model model, HttpServletRequest request){
 		model.addAttribute("spellen", spelRepo.findAll());
+		
+		//Als er al een spel actief is: zet dat in het model
+		HttpSession session = request.getSession();
+		request.setAttribute("spelId", session.getAttribute("spelId"));
 		return "kiesgame";
 	}
 		
@@ -86,7 +65,6 @@ public class BootjesController {
 		s.setHuidigeTegel(tegels.get(0));
 		spelRepo.save(s);
 
-		
 		//voeg bootjeswinkel toe
 		BootjesWinkel b = new BootjesWinkel();
 		b.setBootjesTeKoop(s.getAlleBootjes().subList(0, 4));	
@@ -97,12 +75,15 @@ public class BootjesController {
 	}
 	
 	@RequestMapping("/spel/{id}")
-	public @ResponseBody String joinGame(@PathVariable long id){
-		return "Join spel " + id + ", als dat bestaat";
+	public String joinGame(@PathVariable long id, HttpServletRequest request){
+		HttpSession session = request.getSession();
+		session.setAttribute("spelId", id);
+		return "redirect:/bord";
 	}
 	
 	/*
 	 * Dit is als je via de form een nieuwe speler maakt (wat je dus eigenlijk niet wil)
+	 * haha nu weer wel :(
 	 */
 	@RequestMapping(value = "/spel/{id}/nieuwespeler", method = RequestMethod.POST)
 	public String createdPlayer(String naam, @PathVariable long id){
@@ -120,64 +101,30 @@ public class BootjesController {
 	}
 	
 	/*
-	 * Dit doe je als je op de spel N link klikt in start
+	 * Speler toevoegen als je op het plusje klikt
 	 */
 	@RequestMapping(value = "/spel/{id}/maakspeler", method = RequestMethod.GET)
 	public String createPlayer(@PathVariable long id, HttpServletRequest request, Model model){
 		
-		String result;
-		
 		HttpSession session = request.getSession();
 		String naam = (String) session.getAttribute("naam");
-		//Er is geen session: je kunt random mensen toevoegen als je dat wil
-		//Je kunt dit niet zien aan session, die krijg je automagisch, maar als
-		//de naam null is, zijn ze nog niet bij login geweest
-		//
-		//Note dit is alleen voor nu, in het uiteindelijke spel wil je dit niet
-		//kunnen
-		if(naam == null){
-			model.addAttribute("gameid", id);
-			result = "maakspeler";
-		}
-		//Er is wel een session, voeg de huidige speler toe aan een spel
-		//Mss moet je nog checken of die al in een ander spel zit?/ die speler
-		//al bestaat idk.
-		else{
-			Spel s = spelRepo.findOne(id);
-			List<Speler> spelers = s.getSpelers();
-			
-			Object spelerId = session.getAttribute("spelerId");
-			if(spelerId == null){
-				//Speler bestaat nog niet
-				Speler nieuweSpeler = new Speler(naam);
-				spelers.add(nieuweSpeler);
-				if(spelers.size() == 1){
-					s.setHuidigeSpeler(nieuweSpeler);
-				}
-				
-				spelerRepo.save(nieuweSpeler);
-				session.setAttribute("spelerId", nieuweSpeler.getId());
-				session.setAttribute("spelId", id);
-			}
-			
-			spelRepo.save(s);
-			
-			result = "redirect:/bord";
-		}
-		return result;
+		model.addAttribute("gameid", id);
+		Spel s = spelRepo.findOne(id);
+		spelRepo.save(s);
+
+		return "maakspeler";
 	}
 	
+	/*
+	 * Laat de bootjeswinkel zien
+	 */
+	@RequestMapping("/bootjes") // spel?
+	public String initBootjes(){	
+		return "showBootjes";
+	}
 	
-	
-	
-//	/*
-//	 * Voegt de bootjes toe aan de database, als ze daar niet
-//	 * al in zaten. Dit gebeurt wanneer men naar de URL /bootjes
-//	 * surft. Vervolgens worden de bootjes weergegeven dmv de
-//	 * showBootjes jsp file.
-//	 */
-//	@RequestMapping("/bootjes")
-//	public String initBootjes(Model model, HttpServletRequest request){	
+//	@RequestMapping("/bordJenny")
+//	public String showBord(Model model, HttpServletRequest request){
 //		//Default id voor het geval we nog random willen kijken
 //		long spelId = 1l;
 //		
@@ -188,70 +135,33 @@ public class BootjesController {
 //			spelId = (long)idObj;
 //		}
 //		
-//		model.addAttribute("bootjeswinkel", spelRepo.findOne(spelId).getBootjesWinkel());
-//		return "showBootjes";
-//	}
-//	
-//	
-//	@RequestMapping(value="/koop/{id}", method=RequestMethod.GET)
-//	public String koopBootje(@PathVariable long id, HttpServletResponse response, HttpServletRequest request) throws IOException{
-//		Bootje b = bootjeRepo.findOne(id);
-//		if(b == null || b.isVerkocht()){
-//			response.sendError(404, "Dat bootje bestaat niet");
-//			return null;
+//		
+//		List<Tegel> alleTegels = spelRepo.findOne(spelId).getAlleTegels();
+//		
+//		int index = getIndexHuidigeTegel(request);
+//		if(index == 13){
+//			model.addAttribute("tegelsOpBord", alleTegels);
+//			model.addAttribute("huidigeTegel", null);
+//			model.addAttribute("tegelsOpStapel", new ArrayList<Tegel>());
 //		}
 //		else{
-//			//Default id voor het geval we nog random willen kijken
-//			long spelId = 1l;
-//			
-//			//Vraag het id van het spel op uit de session
-//			HttpSession session = request.getSession();
-//			Object idObj = session.getAttribute("spelId");
-//			if(idObj != null){
-//				spelId = (long)idObj;
-//			}
-//			Spel s = spelRepo.findOne(spelId);
-//			Speler speler = s.getHuidigeSpeler();
-//			Object idObjSpeler = session.getAttribute("spelerId");
-//			if(idObjSpeler != null){
-//				long spelerId = (long)idObjSpeler;
-//				if(spelerId == speler.getId()){
-//					
-//					if(speler.koopBootje(b)){
-//						b.setVerkocht(true);
-//						bootjeRepo.save(b);
-//						//Werk de bootjeswinkel bij
-//						s.getBootjesWinkel().koopBootje(b);
-//						s.getBootjesWinkel().addBootje(getEersteOnverkochteBootje());
-//						spelRepo.save(s);
-//					}
-//					else{
-//						response.sendError(404, "Jij kan dit bootje niet betalen");
-//						return null;
-//					}
-//				}
-//				else{
-//					response.sendError(404, "Jij bent niet aan de beurt.");
-//					System.err.println("id van deze speler: " + spelerId + "\nid van de huidige speler: " + speler.getId());
-//					return null;
-//				}
+//			List<Tegel> tegelsOpBord = alleTegels.subList(0, index);
+//			Tegel huidigeTegel = alleTegels.get(index);
+//			List<Tegel> tegelsOpStapel = new ArrayList<>();
+//			if(index < alleTegels.size()-1){
+//				tegelsOpStapel= alleTegels.subList(index+1, alleTegels.size());
 //			}
 //			
+//			model.addAttribute("tegelsOpBord", tegelsOpBord);
+//			model.addAttribute("huidigeTegel", huidigeTegel);
+//			model.addAttribute("tegelsOpStapel", tegelsOpStapel);
 //			
-//			return "redirect:/bootjes";
+//			model.addAttribute("spelId", spelId);
+//			model.addAttribute("spelers", spelRepo.findOne(spelId).getSpelers());
 //		}
+//			
+//		return "bord";
 //	}
-	/*
-	 * Voegt de bootjes toe aan de database, als ze daar niet
-	 * al in zaten. Dit gebeurt wanneer men naar de URL /bootjes
-	 * surft. Vervolgens worden de bootjes weergegeven dmv de
-	 * showBootjes jsp file.
-	 */
-	@RequestMapping("/bootjes")
-	public String initBootjes(){	
-		return "showBootjes";
-	}
-
 	
 	/*
 	 * Geeft het eerste onverkochte bootje in de lijst met alle bootjes

@@ -13,6 +13,13 @@
 <link rel="stylesheet" href="/resources/demos/style.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<!-- Websocket imports -->
+<!-- <script src="/webjars/jquery/jquery.min.js"></script> -->
+<script src="/webjars/sockjs-client/sockjs.min.js"></script>
+<script src="/webjars/stomp-websocket/stomp.min.js"></script>
+<script src="/app.js"></script>
+
 <script>
 	$(function() {
 		$("#menu").menu({
@@ -59,11 +66,16 @@
 
 	<script>
 		$(document).ready(function() {
+			
+			//startWebSocket();
+			
 			//Voeg functionaliteit toe aan de menubalk
 			$("nav").click(function() {
 				console.log("Je klikte op " + $(this).attr("id"));
 				window.location = $(this).attr("id");
 			});
+			
+			
 		});
 	</script>
 

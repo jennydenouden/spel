@@ -26,7 +26,6 @@ canvas {
 </head>
 <body onload="draw();">
 	
-	
 	<ul id="menu">
 		<li class="ui-widget-header"><div>Menu</div></li>
 		<li><nav id="/speler">Inventaris</nav></li>
@@ -34,6 +33,9 @@ canvas {
 		<li><nav id="/bootjes">Bootjeswinkel</nav></li>
 		<li><nav id="/bordJenny">Bord Jenny</nav>
 	</ul>
+	<br>
+	
+	<strong> <span id = "huidigeSpeler">IEMAND</span> is aan de beurt</strong> <input type = "button" id = "wisselBeurt" value= "Geef de beurt door"> <br><br>
 	
 	<canvas id="bordGrid" width="1000" height="1000"></canvas>
 	
@@ -44,15 +46,6 @@ canvas {
 				window.location = $(this).attr("id");
 			});
 		});
-	</script>
-	
-	<script>
-	//$(document).ready(function(){
-	//	$("bordGrid").click(function(klik){
-	//		console.log("x: " + klik.clientX + ", y: " + klik.clientY);
-	//	});
-	//});	
-	
 	</script>
 </body>
 </html>
