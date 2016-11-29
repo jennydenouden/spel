@@ -53,10 +53,8 @@ function draw() {
 
             var ctx = canvas.getContext('2d');
 
-            var canvasWidth = canvas.width;
-            var canvasHeight = canvas.height;
-            var gridSize = 25;
-            var tileSize = canvasWidth / gridSize;
+            var gridSize = 15;
+            var tileSize = canvas.width / gridSize;
 
             for (var kolom = 0; kolom < gridSize; kolom++) {
                 for (var rij = 0; rij < gridSize; rij++) {
@@ -66,7 +64,7 @@ function draw() {
                     img.x = (kolom * tileSize);
                     img.y = (rij * tileSize);
                     //img.plaatje.src = plaatjes[kolom][rij];
-                    ctx.strokeRect(kolom * tileSize, rij * tileSize, tileSize, tileSize);
+//                    ctx.strokeRect(kolom * tileSize, rij * tileSize, tileSize, tileSize);
                     ctx.drawImage(img.plaatje, img.x, img.y, tileSize, tileSize);
 
                 }
@@ -86,7 +84,7 @@ function draw() {
                         var img = {plaatje: plaatje, x: berekendeKolom * tileSize, y: berekendeRij * tileSize};
                         img.x = (berekendeKolom * tileSize);
                         img.y = (berekendeRij * tileSize);
-                        ctx.strokeRect(img.x, img.y, tileSize, tileSize);
+//                        ctx.strokeRect(img.x, img.y, tileSize, tileSize);
                         ctx.drawImage(img.plaatje, img.x, img.y, tileSize, tileSize);
                     }
                 });
