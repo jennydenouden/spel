@@ -14,43 +14,44 @@ import javax.persistence.OrderColumn;
 
 @Entity
 public class BordKolom {
-	private List<Tegel> kolom;
-	private long id;
-	
-	public BordKolom(){
-		//Vul kolom met lege tegels
-		this.kolom = new ArrayList<>();	
-		for(int i = 0; i < Spel.BORDGROOTTE; i++){
-			this.kolom.add(new Tegel());
-		}
-	}
 
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "kolom_id")
-	@OrderColumn
-	public List<Tegel> getKolom() {
-		return kolom;
-	}
+    private List<Tegel> kolom;
+    private long id;
 
-	public void setKolom(List<Tegel> kolom) {
-		this.kolom = kolom;
-	}
+    public BordKolom() {
+        //Vul kolom met lege tegels
+        this.kolom = new ArrayList<>();
+        for (int i = 0; i < Spel.BORDGROOTTE; i++) {
+            this.kolom.add(new Tegel());
+        }
+    }
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	public long getId() {
-		return id;
-	}
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "kolom_id")
+    @OrderColumn
+    public List<Tegel> getKolom() {
+        return kolom;
+    }
 
-	public void setId(long id) {
-		this.id = id;
-	}
+    public void setKolom(List<Tegel> kolom) {
+        this.kolom = kolom;
+    }
 
-	public void add(int rijNr, Tegel tegel) {
-		this.kolom.set(rijNr, tegel);
-	}
-	
-	public String toString(){
-		return this.kolom.toString();
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void add(int rijNr, Tegel tegel) {
+        this.kolom.set(rijNr, tegel);
+    }
+
+    public String toString() {
+        return this.kolom.toString();
+    }
 }

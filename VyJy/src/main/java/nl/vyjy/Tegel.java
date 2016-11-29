@@ -6,46 +6,45 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
-
 @Entity
 public class Tegel {
 
-	private long id;
-	private boolean gespeeld;
-    private String plaatje;       
-	
-	public Tegel(String plaatje){
-		this.plaatje = plaatje;
-		this.gespeeld = false;
-	}
-        
-	public Tegel(){
-		this.gespeeld = false;
-		this.plaatje = "/images/tegels/leegvakje.jpg";
-	}
-	
-	@Transient
-	public boolean isLegeTegel(){
-		return this.plaatje.equals("/images/tegels/leegvakje.jpg");
-	}
+    private long id;
+    private boolean gespeeld;
+    private String plaatje;
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	public long getId() {
-		return id;
-	}
+    public Tegel(String plaatje) {
+        this.plaatje = plaatje;
+        this.gespeeld = false;
+    }
 
-	public void setId(long id) {
-		this.id = id;
-	}
+    public Tegel() {
+        this.gespeeld = false;
+        this.plaatje = "/images/tegels/leegvakje.jpg";
+    }
 
-	public boolean isGespeeld() {
-		return gespeeld;
-	}
+    @Transient
+    public boolean isLegeTegel() {
+        return this.plaatje.equals("/images/tegels/leegvakje.jpg");
+    }
 
-	public void setGespeeld(boolean gespeeld) {
-		this.gespeeld = gespeeld;
-	}	
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public boolean isGespeeld() {
+        return gespeeld;
+    }
+
+    public void setGespeeld(boolean gespeeld) {
+        this.gespeeld = gespeeld;
+    }
 
     public String getPlaatje() {
         return plaatje;

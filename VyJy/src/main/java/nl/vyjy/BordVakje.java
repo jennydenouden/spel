@@ -3,7 +3,6 @@ package nl.vyjy;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -17,7 +16,6 @@ public class BordVakje {
     private int xPos;
     private int yPos;
     private Tegel tegel;
-    //private Tegel tegel;
 
     @Id
     @GeneratedValue(generator="myGenerator")
@@ -54,12 +52,4 @@ public class BordVakje {
     public void setyPos(int yPos) {
         this.yPos = yPos;
     }
-
-//    public Tegel getTegel() {
-//        return tegel;
-//    }
-//
-//    public void setTegel(Tegel tegel) {
-//        this.tegel = tegel;
-//    }
 }

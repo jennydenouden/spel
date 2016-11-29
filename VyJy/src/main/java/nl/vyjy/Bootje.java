@@ -15,7 +15,7 @@ public class Bootje {
     private int prijsSchelp;
     private boolean verkocht;
 
-    public Bootje(int waarde, int prijsBanaan, int prijsVis, int prijsSchelp){
+    public Bootje(int waarde, int prijsBanaan, int prijsVis, int prijsSchelp) {
         // deze class moet met een database gaan werken
         this.waarde = waarde;
         this.prijsBanaan = prijsBanaan;
@@ -23,14 +23,14 @@ public class Bootje {
         this.prijsSchelp = prijsSchelp;
         this.verkocht = false;
     }
-    
+
     //Default constructor moest ik toevoegen van hibernate
-    public Bootje(){
-    	this(0, 0, 0, 0);
+    public Bootje() {
+        this(0, 0, 0, 0);
     }
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public long getId() {
         return id;
     }
@@ -38,7 +38,7 @@ public class Bootje {
     public void setId(long id) {
         this.id = id;
     }
-    
+
     public int getWaarde() {
         return waarde;
     }
@@ -55,36 +55,36 @@ public class Bootje {
         return prijsSchelp;
     }
 
-	public boolean isVerkocht() {
-		return verkocht;
-	}
+    public boolean isVerkocht() {
+        return verkocht;
+    }
 
-	public void setVerkocht(boolean verkocht) {
-		this.verkocht = verkocht;
-	}
+    public void setVerkocht(boolean verkocht) {
+        this.verkocht = verkocht;
+    }
 
-	public void setWaarde(int waarde) {
-		this.waarde = waarde;
-	}
+    public void setWaarde(int waarde) {
+        this.waarde = waarde;
+    }
 
-	public void setPrijsBanaan(int prijsBanaan) {
-		this.prijsBanaan = prijsBanaan;
-	}
+    public void setPrijsBanaan(int prijsBanaan) {
+        this.prijsBanaan = prijsBanaan;
+    }
 
-	public void setPrijsVis(int prijsVis) {
-		this.prijsVis = prijsVis;
-	}
+    public void setPrijsVis(int prijsVis) {
+        this.prijsVis = prijsVis;
+    }
 
-	public void setPrijsSchelp(int prijsSchelp) {
-		this.prijsSchelp = prijsSchelp;
-	}
-	
-	/*
+    public void setPrijsSchelp(int prijsSchelp) {
+        this.prijsSchelp = prijsSchelp;
+    }
+
+    /*
 	 * Implementatie van de toString methode
 	 * @see java.lang.Object#toString()
-	 */
-	public String toString(){
-		return "[Bootje     ]\n"
-			+  "["+this.waarde+"    punten]";
-	}
+     */
+    public String toString() {
+        return "[Bootje     ]\n"
+                + "[" + this.waarde + "    punten]";
+    }
 }
