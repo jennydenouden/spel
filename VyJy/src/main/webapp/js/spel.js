@@ -12,7 +12,7 @@ function draw() {
                 img.onload = function () {
                     ctx.drawImage(img, 0, 0, img.width, img.height, // source rectangle
                             0, 0, canvas.width, canvas.height); // destination rectangle)
-                }
+                };
             });
         });
     }
@@ -30,7 +30,7 @@ function draw() {
             var naam = speler.name;
             console.log("speler : " + naam);
             $("#huidigeSpeler").text(naam);
-        })
+        });
     });
 
 
@@ -89,13 +89,8 @@ function draw() {
                     }
                 });
             });
-
         }
-
-
     });
-
-
 }
 
 //Preload de plaatjes en zet ze in een map, zodat ik ze kan uitlezen

@@ -27,7 +27,7 @@ public class SpelController {
 
     @Autowired
     private SpelRepository spelRepo;
-
+    
     @RequestMapping("/spel")
     public String spel(Model model, HttpServletRequest request) {
         //Default id voor het geval we nog random willen kijken
