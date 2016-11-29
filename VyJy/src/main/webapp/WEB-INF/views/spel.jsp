@@ -72,7 +72,7 @@
 
                 <%-- De tegel die deze beurt gelegd moet worden --%>
                 <div id="canvasKaartje">
-                    <canvas id="huidigeTegel">Your browser doesn't support canvas</canvas>
+                    <canvas id="huidigeTegel" width="100%">Your browser doesn't support canvas</canvas>
                 </div>
 
                 <%-- De bootjeswinkel staat onder de spelers --%>

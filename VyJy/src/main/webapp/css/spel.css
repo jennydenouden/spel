@@ -11,20 +11,20 @@
 #bord {
     width: 80%;
     background: aquamarine;
-    float: right; 
+    float: right;
 }
 #speler {
     background: greenyellow;
     overflow: auto;
+    padding: 5px;
 }
 canvasKaartje {
     background: pink;
-    overflow: auto
+    overflow: auto;
+    padding: 5px;
 }
 #winkel {
     background: palegoldenrod;
-    overflow: auto
-}
-canvas {
-    width: 100%;
+    overflow: auto;
+    padding: 5px;
 }

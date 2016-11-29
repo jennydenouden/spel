@@ -1,5 +1,5 @@
 function draw() {
-        
+
     //Zet de goede naam bij de huidige speler
     $.get("/getHuidigeSpeler", function (speler) {
         var naam = speler.name;
@@ -16,7 +16,7 @@ function draw() {
             $("#huidigeSpeler").text(naam);
         });
     });
-    
+
     // Teken huidige tegel
     var canvasT = document.getElementById("huidigeTegel");
     if (canvasT.getContext) {
@@ -25,12 +25,20 @@ function draw() {
         $(document).ready(function () {
             $.get("/huidigeTegel", function (tegel) {
                 console.log(tegel.plaatje);
-                var orientatie = tegel.orientatie;
+                var orientatie = tegel.orientation;
+                var draai = 90 * orientatie * Math.PI / 180;
                 var plaatje = tegel.plaatje;
                 var img = new Image();
                 img.src = plaatje;
                 img.onload = function () {
-                    ctxt.rotate(90 * orientatie * Math.PI/180); // draaien van de tegel
+
+                    console.log(orientatie);
+
+                    // zet het draaipunt in het midden, draai het canvas, zet het draaipunt terug
+                    ctxt.translate(canvasT.width / 2, canvasT.height / 2);
+                    ctxt.rotate(draai);
+                    ctxt.translate(-canvasT.width / 2, -canvasT.height / 2);
+
                     ctxt.drawImage(img, 0, 0, img.width, img.height, // source rectangle
                             0, 0, canvasT.width, canvasT.height); // destination rectangle)
                 };
@@ -40,42 +48,58 @@ function draw() {
 
     //Teken bord
     var plaatjes = [];
+    var orientaties = [];
     $.get("/tegelsOpBord", function (kolommen) {
 
         //Vul plaatjes met de locaties van de tegel pngs
         for (var i = 0; i < kolommen.length; i++) {
             plaatjes[i] = [];
+            orientaties[i] = [];
             //console.log(kolommen[i]);
             for (var j = 0; j < kolommen[i].kolom.length; j++) {
                 //console.log(kolommen[i].kolom[j].plaatje);
+                console.log(kolommen[i].kolom[j].orientation);
                 plaatjes[i][j] = kolommen[i].kolom[j].plaatje;
+                orientaties[i][j] = kolommen[i].kolom[j].orientation;
             }
         }
 
         var canvas = document.getElementById('bordGrid');
         if (canvas.getContext) {
-
             var ctx = canvas.getContext('2d');
 
-            var canvasWidth = canvas.width;
-            var canvasHeight = canvas.height;
-            var gridSize = 25;
-            var tileSize = canvasWidth / gridSize;
+            var gridSize = 12;
+            var tileSize = canvas.width / gridSize;
 
             for (var kolom = 0; kolom < gridSize; kolom++) {
                 for (var rij = 0; rij < gridSize; rij++) {
                     //console.log("url: " + plaatjes[kolom][rij]);
                     var plaatje = imgMap.get(plaatjes[kolom][rij]);
+                    var orientatie = imgMap.get(orientaties[kolom][rij]);
+                    console.log(orientatie);
                     var img = {plaatje: plaatje, x: kolom * tileSize, y: rij * tileSize};
+                    var image = new Image();
+                    image = img.plaatje;
                     img.x = (kolom * tileSize);
                     img.y = (rij * tileSize);
-                    //img.plaatje.src = plaatjes[kolom][rij];
-                    ctx.strokeRect(kolom * tileSize, rij * tileSize, tileSize, tileSize);
-                    ctx.drawImage(img.plaatje, img.x, img.y, tileSize, tileSize);
 
+                    ctx.save();
+
+//                    ctx.translate(canvasT.width / 2, canvasT.height / 2); 
+                    ctx.translate(img.x + tileSize / 2, img.y + tileSize / 2);
+
+                    ctx.rotate(orientatie * 90 * Math.PI / 180);
+
+//                    ctx.drawImage(img.plaatje, img.x, img.y, tileSize, tileSize);
+                    ctx.drawImage(image, -(image.width/2), -(image.height/2), tileSize, tileSize);
+
+//                    ctx.rotate(-(orientatie * 90 * Math.PI / 180));
+
+//                    ctx.translate(-canvasT.width / 2, -canvasT.height / 2);
+
+                    ctx.restore();
                 }
             }
-
 
             $("#bordGrid").click(function (event) {
                 //console.log("klik op (x: "+ (event.pageX - this.offsetLeft) + ", y: "+ (event.pageY - this.offsetTop ) + ")");
@@ -90,7 +114,6 @@ function draw() {
                         var img = {plaatje: plaatje, x: berekendeKolom * tileSize, y: berekendeRij * tileSize};
                         img.x = (berekendeKolom * tileSize);
                         img.y = (berekendeRij * tileSize);
-                        ctx.strokeRect(img.x, img.y, tileSize, tileSize);
                         ctx.drawImage(img.plaatje, img.x, img.y, tileSize, tileSize);
                     }
                 });
