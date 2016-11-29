@@ -13,7 +13,7 @@ public class Tegel {
     private boolean gespeeld;
     private String plaatje;
     private int orientatie;
-    private static final String prefix = "/images/tegels/";
+    public static final String prefix = "/images/tegels/";
     private String[] urls;
 
     public Tegel(String plaatje) {
@@ -24,6 +24,7 @@ public class Tegel {
         String suffix = plaatje.substring(prefix.length() - 1);
 
         this.urls = new String[]{prefix + 0 + suffix, prefix + 1 + suffix, prefix + 2 + suffix, prefix + 3 + suffix};
+        this.plaatje = urls[orientatie];
     }
 
     public Tegel() {
@@ -40,6 +41,7 @@ public class Tegel {
 
     public void draaiTegel() {
         orientatie = (orientatie + 1) % 4;
+        this.plaatje = urls[orientatie];
     }
 
     @Id
@@ -62,7 +64,8 @@ public class Tegel {
 
     public String getPlaatje() {
         //return prefix + orientatie + "/" + suffix;
-        return urls[orientatie];
+        this.plaatje = urls[orientatie];
+        return plaatje;
     }
 
     public void setPlaatje(String plaatje) {
@@ -84,9 +87,4 @@ public class Tegel {
     public void setUrls(String[] urls) {
         this.urls = urls;
     }
-
-    public static String getPrefix() {
-        return prefix;
-    }
-
 }

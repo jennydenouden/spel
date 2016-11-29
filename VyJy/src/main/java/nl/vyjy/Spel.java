@@ -15,7 +15,7 @@ import javax.persistence.OneToOne;
 @Entity
 public class Spel {
 
-    public static final int BORDGROOTTE = 25;
+    public static final int BORDGROOTTE = 15;
 
     private List<Speler> spelers;
     private List<Tegel> alleTegels;

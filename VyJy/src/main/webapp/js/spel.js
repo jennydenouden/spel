@@ -98,9 +98,12 @@ function draw() {
 function preload(arrayOfImages) {
     var imgMap = new Map();
     $(arrayOfImages).each(function () {
-        var img = new Image();
-        img.src = "/images/tegels/" + this;
-        imgMap.set("/images/tegels/" + this, img);
+       
+        for(var i=0; i < 4; i++){
+            var img = new Image();
+            img.src = "/images/tegels/" + i + "/" + this;
+            imgMap.set("/images/tegels/" + i + "/"+ this, img);
+        }
     });
 
     return imgMap;
@@ -176,7 +179,6 @@ var imgMap =
             "lwwb - Copy.png",
             "lwwb.png",
             "lwww.png",
-            "tmp",
             "wwww - Copy.png",
             "wwww.png",
             "leegvakje.jpg"]
