@@ -100,11 +100,20 @@ public class ControllerMethodes {
 	
 
 	@RequestMapping(value = "/huidigeTegel")
-        public @ResponseBody Tegel getHuidigeTegel(HttpServletRequest request) {
-            Spel spel = spelRepo.findOne(getSpelId(request));
-            Tegel huidigeTegel = spel.getHuidigeTegel();
-            return huidigeTegel;
-        }
+    public @ResponseBody Tegel getHuidigeTegel(HttpServletRequest request) {
+        Spel spel = spelRepo.findOne(getSpelId(request));
+        Tegel huidigeTegel = spel.getHuidigeTegel();
+        return huidigeTegel;
+    }
+	
+	@RequestMapping("/draaiHuidigeTegel")
+	public @ResponseBody Tegel draaiHuidigeTegel(HttpServletRequest request){
+		Spel spel = spelRepo.findOne(getSpelId(request));
+		Tegel huidigeTegel = spel.getHuidigeTegel();
+		huidigeTegel.draaiTegel();
+		spelRepo.save(spel);
+		return huidigeTegel;
+	}
 
 	@RequestMapping("/getHuidigeSpeler")
 	public @ResponseBody Speler getHuidigeSpeler(HttpServletRequest request){

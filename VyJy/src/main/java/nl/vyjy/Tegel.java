@@ -12,20 +12,34 @@ public class Tegel {
     private long id;
     private boolean gespeeld;
     private String plaatje;
+    private int orientatie;
+    private static final String prefix = "/images/tegels/";
+    private String[] urls;
 
     public Tegel(String plaatje) {
         this.plaatje = plaatje;
         this.gespeeld = false;
+        this.orientatie = 0;
+
+        String suffix = plaatje.substring(prefix.length() - 1);
+
+        this.urls = new String[]{prefix + 0 + suffix, prefix + 1 + suffix, prefix + 2 + suffix, prefix + 3 + suffix};
     }
 
     public Tegel() {
         this.gespeeld = false;
         this.plaatje = "/images/tegels/leegvakje.jpg";
+        this.orientatie = 0;
+        this.urls = new String[4];
     }
 
     @Transient
     public boolean isLegeTegel() {
         return this.plaatje.equals("/images/tegels/leegvakje.jpg");
+    }
+
+    public void draaiTegel() {
+        orientatie = (orientatie + 1) % 4;
     }
 
     @Id
@@ -47,10 +61,32 @@ public class Tegel {
     }
 
     public String getPlaatje() {
-        return plaatje;
+        //return prefix + orientatie + "/" + suffix;
+        return urls[orientatie];
     }
 
     public void setPlaatje(String plaatje) {
         this.plaatje = plaatje;
     }
+
+    public int getOrientatie() {
+        return orientatie;
+    }
+
+    public void setOrientatie(int orientatie) {
+        this.orientatie = orientatie;
+    }
+
+    public String[] getUrls() {
+        return urls;
+    }
+
+    public void setUrls(String[] urls) {
+        this.urls = urls;
+    }
+
+    public static String getPrefix() {
+        return prefix;
+    }
+
 }
