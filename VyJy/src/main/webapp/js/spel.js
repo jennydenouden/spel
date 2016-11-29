@@ -17,3 +17,9 @@ function draw() {
         });
     }
 }
+
+function draaiTegel(){	
+	$.post("/draaiHuidigeTegel", undefined, function(tegel){
+		console.log("tegel: " + tegel.plaatje);
+	})
+}

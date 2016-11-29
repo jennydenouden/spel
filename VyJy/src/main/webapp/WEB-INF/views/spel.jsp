@@ -152,5 +152,23 @@
             <%-- Het speelbord staat aan de linkerkant van het spel --%>
             <div id="bord">Speelbord deel</div>
         </div>
+        
+        <input type="button" value="Draai de tegel" id="draaiTegel">
+        <input type="button" value="Ga terug naar de startpagina" id="gaTerugNaarStart">
+        
+        <script>
+        $(document).ready(function() {
+        	$("#draaiTegel").click(function(){
+        		console.log("klik op draaitegel");
+        		draaiTegel();
+        	});
+        	
+        	$("#gaTerugNaarStart").click(function(){
+        		console.log("klik op ga terug naar start");
+        		window.location = "/start";
+        	});
+        });
+        </script>
+        
     </body>
 </html>
