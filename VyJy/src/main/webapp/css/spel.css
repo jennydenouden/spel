@@ -1,30 +1,43 @@
 #wrapper {
     width: 100%;
     border: 1px solid black;
-    background: lightgrey;
+    background: palegoldenrod;
     overflow: auto;
 }
 #linkerkant {
     width: 20%;
     float: left;
 }
-#bord {
+#bordcontainer {
     width: 80%;
-    background: aquamarine;
-    float: right; 
+    background: Tan ;
+    float: right;
+}
+#bord {
+    /*background: rgb(150, 216, 232);*/
+    background: Tan ;
+    text-align: center;
+    padding: 15px;
 }
 #speler {
-    background: greenyellow;
+    background: palegoldenrod;
     overflow: auto;
     padding: 5px;
+    text-align: center;
 }
-canvasKaartje {
-    background: pink;
+a {
+    color: inherit;
+    text-decoration: inherit;
+}
+#canvasKaartje {
+    background: palegoldenrod;
     overflow: auto;        
     padding: 5px;
+    text-align: center;
 }
 #winkel {
     background: palegoldenrod;
     overflow: auto;
     padding: 5px;
+    text-align: center;
 }

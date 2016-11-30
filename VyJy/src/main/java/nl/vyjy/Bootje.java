@@ -84,7 +84,6 @@ public class Bootje {
 	 * @see java.lang.Object#toString()
      */
     public String toString() {
-        return "[Bootje     ]\n"
-                + "[" + this.waarde + "    punten]";
+        return "" + this.waarde + "    punten";
     }
 }
