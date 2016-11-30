@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.Random;
 
 @Entity
 public class Tegel {
@@ -22,7 +23,9 @@ public class Tegel {
     public Tegel(String plaatje) {
         this.plaatje = plaatje;
         this.gespeeld = false;
-        this.orientatie = 0;
+        Random random = new Random();
+        int r = random.nextInt(4);
+        this.orientatie = r;
 
         String suffix = plaatje.substring(prefix.length() - 1);
 
@@ -34,8 +37,8 @@ public class Tegel {
         this.gespeeld = false;
         this.plaatje = "/images/tegels/0/leegvakje.jpg";
         this.orientatie = 0;
-      
-        this.urls = new String[] {"/images/tegels/0/leegvakje.jpg", "/images/tegels/1/leegvakje.jpg", "/images/tegels/2/leegvakje.jpg", "/images/tegels/3/leegvakje.jpg"};
+
+        this.urls = new String[]{"/images/tegels/0/leegvakje.jpg", "/images/tegels/1/leegvakje.jpg", "/images/tegels/2/leegvakje.jpg", "/images/tegels/3/leegvakje.jpg"};
     }
 
     @Transient
