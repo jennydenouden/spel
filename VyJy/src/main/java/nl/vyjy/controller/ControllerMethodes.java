@@ -69,6 +69,16 @@ public class ControllerMethodes {
 	@RequestMapping("/tegelsOpBord")
 	public @ResponseBody Iterable<BordKolom> getTegelsOpBord(HttpServletRequest request){
 		Spel spel = spelRepo.findOne(getSpelId(request));
+		
+		List<BordKolom> bord = spel.getBord();
+		for(BordKolom b : bord){
+			List<Tegel> tegels = b.getKolom();
+			for(Tegel t : tegels){
+				System.err.println(t.getPlaatje());
+			}
+		}
+		
+		
 		return spel.getBord();
 	}
 	

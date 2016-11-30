@@ -6,6 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Tegel {
 
@@ -29,14 +31,16 @@ public class Tegel {
 
     public Tegel() {
         this.gespeeld = false;
-        this.plaatje = "/images/tegels/leegvakje.jpg";
+        this.plaatje = "/images/tegels/0/leegvakje.jpg";
         this.orientatie = 0;
-        this.urls = new String[4];
+      
+        this.urls = new String[] {"/images/tegels/0/leegvakje.jpg", "/images/tegels/1/leegvakje.jpg", "/images/tegels/2/leegvakje.jpg", "/images/tegels/3/leegvakje.jpg"};
     }
 
     @Transient
+    @JsonIgnore
     public boolean isLegeTegel() {
-        return this.plaatje.equals("/images/tegels/leegvakje.jpg");
+        return this.plaatje.equals("/images/tegels/0/leegvakje.jpg");
     }
 
     public void draaiTegel() {
