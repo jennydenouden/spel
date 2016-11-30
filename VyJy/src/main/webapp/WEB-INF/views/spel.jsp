@@ -32,8 +32,71 @@
                 <%-- Informatie over de spelers in dit spel --%>
                 <div id="speler">
                     <strong> <span id = "huidigeSpeler">IEMAND</span> is aan de beurt</strong> <input type = "button" id = "wisselBeurt" value= "Geef de beurt door"> <br><br>
+                    <input type="button" value="Draai de tegel" id="draaiTegel">
+                    <input type="button" value="Ga terug naar de startpagina" id="gaTerugNaarStart">
+
+                    <script>
+                        $(document).ready(function () {
+                            $("#draaiTegel").click(function () {
+                                console.log("klik op draaitegel");
+                                draaiTegel();
+                            });
+
+                            $("#gaTerugNaarStart").click(function () {
+                                console.log("klik op ga terug naar start");
+                                window.location = "/start";
+                            });
+                        });
+                    </script>
                     
-                    <h1>Spelers</h1><div id="winkel">
+                </div>
+                
+                
+                <%-- De tegel die deze beurt gelegd moet worden --%>
+                <div id="canvasKaartje">
+                    <canvas id="huidigeTegel" width="100%">Your browser doesn't support canvas</canvas>
+                </div>
+
+                <div id="speler">
+                    <h1>Spelers</h1>
+                    <c:forEach items="${spelers}" var="s">
+                        <hr>
+                        <p>
+                        <h3>Naam: ${s.name}</h3>
+                        Tokens:
+                        <ul>
+                            <li>
+                                Visjes: ${s.visjes}
+                                <a href="/visjebij${s.id}"><strong>+</strong></a>
+                                <a href="/visjeaf${s.id}"><strong>-</strong></a>
+                            </li>
+                            <li>
+                                Bananen: ${s.bananen}
+                                <a href="/banaanbij${s.id}"><strong>+</strong></a>
+                                <a href="/banaanaf${s.id}"><strong>-</strong></a>
+                            </li>
+                            <li>
+                                Schelpen: ${s.schelpen}
+                                <a href="/schelpbij${s.id}"><strong>+</strong></a>
+                                <a href="/schelpaf${s.id}"><strong>-</strong></a>
+                            </li>
+                        </ul>
+                        <br>
+                        Bootjes totale waarde: ${s.printWaardeInventaris()}
+                        <ul>
+                            <c:forEach items = "${ s.inventaris }" var = "bootje">
+                                <li>
+                                    ${bootje.toString()}
+                                </li>
+                            </c:forEach>
+
+                        </ul>
+                        </p>
+                    </c:forEach>
+                </div>
+
+                <%-- De bootjeswinkel staat onder de spelers --%>
+                <div id="winkel">
                     <h1>Alle bootjes in het systeem:</h1>
                     <p>
                     <table>
@@ -96,49 +159,6 @@
                         });
                     </script>
                 </div>
-                    <c:forEach items="${spelers}" var="s">
-                        <hr>
-                        <p>
-                        <h3>Naam: ${s.name}</h3>
-                        Tokens:
-                        <ul>
-                            <li>
-                                Visjes: ${s.visjes}
-                                <a href="/visjebij${s.id}"><strong>+</strong></a>
-                                <a href="/visjeaf${s.id}"><strong>-</strong></a>
-                            </li>
-                            <li>
-                                Bananen: ${s.bananen}
-                                <a href="/banaanbij${s.id}"><strong>+</strong></a>
-                                <a href="/banaanaf${s.id}"><strong>-</strong></a>
-                            </li>
-                            <li>
-                                Schelpen: ${s.schelpen}
-                                <a href="/schelpbij${s.id}"><strong>+</strong></a>
-                                <a href="/schelpaf${s.id}"><strong>-</strong></a>
-                            </li>
-                        </ul>
-                        <br>
-                        Bootjes totale waarde: ${s.printWaardeInventaris()}
-                        <ul>
-                            <c:forEach items = "${ s.inventaris }" var = "bootje">
-                                <li>
-                                    ${bootje.toString()}
-                                </li>
-                            </c:forEach>
-
-                        </ul>
-                        </p>
-                    </c:forEach>
-                </div>
-
-                <%-- De tegel die deze beurt gelegd moet worden --%>
-                <div id="canvasKaartje">
-                    <canvas id="huidigeTegel" width="100%">Your browser doesn't support canvas</canvas>
-                </div>
-
-                <%-- De bootjeswinkel staat onder de spelers --%>
-                
             </div>
 
             <%-- Het speelbord staat aan de linkerkant van het spel --%>
@@ -154,24 +174,6 @@
                     });
                 </script>
             </div>
-        </div>
-        
-        <input type="button" value="Draai de tegel" id="draaiTegel">
-        <input type="button" value="Ga terug naar de startpagina" id="gaTerugNaarStart">
-        
-        <script>
-        $(document).ready(function() {
-        	$("#draaiTegel").click(function(){
-        		console.log("klik op draaitegel");
-        		draaiTegel();
-        	});
-        	
-        	$("#gaTerugNaarStart").click(function(){
-        		console.log("klik op ga terug naar start");
-        		window.location = "/start";
-        	});
-        });
-        </script>
-        
+        </div>        
     </body>
 </html>
