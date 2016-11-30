@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" type="text/css" href=<c:url value = "css/nieuweSpeler.css"></c:url>>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Maak speler</title>
 </head>
