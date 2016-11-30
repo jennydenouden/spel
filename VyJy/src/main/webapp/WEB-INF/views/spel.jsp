@@ -154,11 +154,11 @@
                                 $("td").click(clickfunctie);
                             });
 
-                            //Voeg functionaliteit toe aan de menubalk
+                           /* //Voeg functionaliteit toe aan de menubalk
                             $("nav").click(function () {
                                 //console.log("Je klikte op " + $(this).attr("id"));
                                 window.location = $(this).attr("id");
-                            });
+                            });*/
                         });
                     </script>
                 </div>
@@ -168,14 +168,14 @@
             <div id="bord">
                 <canvas id="bordGrid" width="1000" height="1000"></canvas>
 
-                <script>
+                <!-- <script>
                     $(document).ready(function () {
                         //Voeg functionaliteit toe aan de menubalk
                         $("nav").click(function () {
                             window.location = $(this).attr("id");
                         });
                     });
-                </script>
+                </script> -->
             </div>
         </div>        
     </body>

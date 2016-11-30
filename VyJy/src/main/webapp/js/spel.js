@@ -1,22 +1,8 @@
 function draw() {
-    var canvas = document.getElementById("huidigeTegel");
-    if (canvas.getContext) {
-        canvas.height = canvas.width;
-        var ctx = canvas.getContext("2d");
-        $(document).ready(function () {
-            $.get("/huidigeTegel", function (tegel) {
-                //console.log(tegel.plaatje);
-                var plaatje = tegel.plaatje;
-                var img = new Image();
-                img.src = plaatje;
-                img.onload = function () {
-                    ctx.drawImage(img, 0, 0, img.width, img.height, // source rectangle
-                            0, 0, canvas.width, canvas.height); // destination rectangle)
-                };
-            });
-        });
-    }
-
+    
+	//teken de huidige tegel
+	tekenHuidigeTegel();
+	
     //Zet de goede naam bij de huidige speler
     $.get("/getHuidigeSpeler", function (speler) {
         var naam = speler.name;
@@ -89,12 +75,37 @@ function draw() {
                         console.log("print hier " + img.plaatje);
 //                        ctx.strokeRect(img.x, img.y, tileSize, tileSize);
                         ctx.drawImage(image, img.x, img.y, tileSize, tileSize);
+                        
+                        //update de huidige tegel
+                        tekenHuidigeTegel();
                     }
                 });
             });
         }
     });
 }
+
+function tekenHuidigeTegel(){
+	var canvas = document.getElementById("huidigeTegel");
+    if (canvas.getContext) {
+        canvas.height = canvas.width;
+        var ctx = canvas.getContext("2d");
+        $(document).ready(function () {
+            $.get("/huidigeTegel", function (tegel) {
+                //console.log(tegel.plaatje);
+                var plaatje = tegel.plaatje;
+                var img = new Image();
+                img.src = plaatje;
+                img.onload = function () {
+                    ctx.drawImage(img, 0, 0, img.width, img.height, // source rectangle
+                            0, 0, canvas.width, canvas.height); // destination rectangle)
+                };
+            });
+        });
+    }
+}
+
+
 
 //Preload de plaatjes en zet ze in een map, zodat ik ze kan uitlezen
 function preload(arrayOfImages) {
@@ -190,6 +201,7 @@ var imgMap =
 function draaiTegel(){	
 	$.post("/draaiHuidigeTegel", undefined, function(tegel){
 		console.log("tegel: " + tegel.plaatje);
+		tekenHuidigeTegel();
 	})
 };
 
