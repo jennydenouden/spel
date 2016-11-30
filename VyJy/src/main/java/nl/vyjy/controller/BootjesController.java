@@ -106,10 +106,10 @@ public class BootjesController {
     /*
 	 * Laat de bootjeswinkel zien
      */
-    @RequestMapping("/bootjes") // spel?
+    /*@RequestMapping("/bootjes") // spel?
     public String initBootjes() {
         return "showBootjes";
-    }
+    }*/
 
     /*
 	 * Maakt alle bootjes uit Feia's excel file aan, en

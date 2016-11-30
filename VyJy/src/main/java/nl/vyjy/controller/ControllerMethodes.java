@@ -37,31 +37,42 @@ public class ControllerMethodes {
 	public @ResponseBody Bootje koopBootje(long id, HttpServletResponse response, HttpServletRequest request) throws IOException{
 		Bootje nieuwBootje = null;
 		
+		//Haal het bootje met het gegeven id uit de database
 		Bootje b = bootjesRepo.findOne(id);
 		if(b == null || b.isVerkocht()){
+			//Als het bootje niet bestaat, of al verkocht is,
+			//stuur je een error terug
 			response.sendError(404, "Dat bootje bestaat niet");
 			return null;
 		}
 		else{
+			//Anders: zoek het spel en de huidige speler van dat
+			//spel. (Die info komt uit de session.)
 			Spel s = spelRepo.findOne(getSpelId(request));
 			Speler speler = s.getHuidigeSpeler();
 			if(speler.koopBootje(b)){
-				//Werk het bootje bij
+				//Als de koop succesvol is (De speler heeft voldoende
+				//"geld"), werk het bootje bij en sla op in de 
+				//database
 				b.setVerkocht(true);
 				bootjesRepo.save(b);
 				
-				//Werk de bootjeswinkel bij
+				//Werk de bootjeswinkel bij: haal het verkochte bootje
+				//uit de winkel, stop een nieuw onverkocht
+				//bootje in de winkel, en sla dat op in de database
 				s.getBootjesWinkel().koopBootje(b);
 				nieuwBootje = getEersteOnverkochteBootje(request);
 				s.getBootjesWinkel().addBootje(nieuwBootje);
 				spelRepo.save(s);
 			}
 			else{
+				//Als de speler het bootje niet kan betalen, dan stuurt
+				//de server een error terug
 				response.sendError(404, "Jij kan dit bootje niet betalen");
 				return null;
 			}
 			
-			//Return het nieuwe bootje dat in de winkel komt?
+			//Return het nieuwe bootje dat in de winkel komt
 			return nieuwBootje;
 		}
 	}
