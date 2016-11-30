@@ -12,8 +12,8 @@
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         <script>
             $(function () {
-                $("#menu").menu({
-                    items: "> :not(.ui-widget-header)"
+                $("#accordion").accordion({
+                    collapsible: true
                 });
             });
         </script>
@@ -28,14 +28,14 @@
 
             <%-- De linkerhelft van de pagina --%>
             <div id="linkerkant">
-
                 <%-- Informatie over de spelers in dit spel --%>
                 <div id="speler">
-                    <strong> <span id = "huidigeSpeler">IEMAND</span> is aan de beurt</strong>
                     <input type="button" value="Home" id="gaTerugNaarStart">
+                    <hr>
+                    <strong> <span id = "huidigeSpeler">IEMAND</span> is aan de beurt</strong>
+                    <br><br>
                     <input type = "button" id = "wisselBeurt" value= "Einde beurt &#10150;">
                     <input type="button" value="Draai tegel &#10558;" id="draaiTegel">
-
 
                     <script>
                         $(document).ready(function () {
@@ -55,43 +55,47 @@
 
                 <%-- De tegel die deze beurt gelegd moet worden --%>
                 <div id="canvasKaartje">
+
                     <canvas id="huidigeTegel" width="100%">Your browser doesn't support canvas</canvas>
+
                 </div>
 
                 <div id="speler">
-                    <h1>Spelers</h1>
+                    <!--<h1>Spelers</h1>-->
                     <c:forEach items="${spelers}" var="s">
                         <hr>
                         <p>
-                        <h3>${s.name}</h3>
-                        <ul>
-                            <li>
-                                <strong>&#128031;</strong>
-                                <b>${s.visjes}</b>
-                                <a href="/visjebij${s.id}"><strong>&#10133;</strong></a>
-                                <a href="/visjeaf${s.id}"><strong>&#10134;</strong></a>
-                            </li>
-                            <li>
-                                <strong>&#127820;</strong>
-                                <b>${s.bananen}</b>
-                                <a href="/banaanbij${s.id}"><strong>&#10133;</strong></a>
-                                <a href="/banaanaf${s.id}"><strong>&#10134;</strong></a>
-                            </li>
-                            <li>
-                                <strong>&#9749;</strong>
-                                <b>${s.schelpen}</b>
-                                <a href="/schelpbij${s.id}"><strong>&#10133;</strong></a>
-                                <a href="/schelpaf${s.id}"><strong>&#10134;</strong></a>
-                            </li>
-                        </ul>
+                        <h2>${s.name}</h2>
+
+                        <strong>&#128031;</strong>
+                        <b>${s.visjes}</b>
+                        <a href="/visjebij${s.id}"><strong>&#10133;</strong></a>
+                        <a href="/visjeaf${s.id}"><strong>&#10134;</strong></a>
+
                         <br>
-                        Bootjes totale waarde: ${s.printWaardeInventaris()}
-                        <ul>
-                            <c:forEach items = "${ s.inventaris }" var = "bootje">
-                                <li>
-                                    <strong>&#9973;</strong> ${bootje.toString()}
-                                </li>
-                            </c:forEach>
+
+                        <strong>&#127820;</strong>
+                        <b>${s.bananen}</b>
+                        <a href="/banaanbij${s.id}"><strong>&#10133;</strong></a>
+                        <a href="/banaanaf${s.id}"><strong>&#10134;</strong></a>
+
+                        <br>
+
+                        <strong>&#9749;</strong>
+                        <b>${s.schelpen}</b>
+                        <a href="/schelpbij${s.id}"><strong>&#10133;</strong></a>
+                        <a href="/schelpaf${s.id}"><strong>&#10134;</strong></a>
+
+                        <br>
+
+                        <br>
+                        Totaal aantal punten: ${s.printWaardeInventaris()}
+                        <br><br>
+                        <c:forEach items = "${ s.inventaris }" var = "bootje">
+
+                            <strong>&#9973;</strong> ${bootje.toString()}
+                            <br> 
+                        </c:forEach>
 
                         </ul>
                         </p>
@@ -100,7 +104,8 @@
 
                 <%-- De bootjeswinkel staat onder de spelers --%>
                 <div id="winkel">
-                    <h1>Alle bootjes in het systeem:</h1>
+                    <hr>
+                    <h2>Bootjeswinkel</h2>
                     <p>
                     <table>
                         <tr id="eersteRij">
@@ -165,18 +170,19 @@
             </div>
 
             <%-- Het speelbord staat aan de linkerkant van het spel --%>
-            <div id="bord">
-                <canvas id="bordGrid" width="1000" height="1000"></canvas>
+            <div id="bordcontainer">
+                <div id="bord">
+                    <canvas id="bordGrid" width="800" height="800"></canvas>
 
-                <script>
-                    $(document).ready(function () {
-                        //Voeg functionaliteit toe aan de menubalk
-                        $("nav").click(function () {
-                            window.location = $(this).attr("id");
+                    <script>
+                        $(document).ready(function () {
+                            //Voeg functionaliteit toe aan de menubalk
+                            $("nav").click(function () {
+                                window.location = $(this).attr("id");
+                            });
                         });
-                    });
-                </script>
-            </div>
+                    </script>
+                </div></div>
         </div>        
     </body>
 </html>
