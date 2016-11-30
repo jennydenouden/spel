@@ -5,7 +5,7 @@ function draw() {
         var ctx = canvas.getContext("2d");
         $(document).ready(function () {
             $.get("/huidigeTegel", function (tegel) {
-                console.log(tegel.plaatje);
+                //console.log(tegel.plaatje);
                 var plaatje = tegel.plaatje;
                 var img = new Image();
                 img.src = plaatje;
@@ -20,7 +20,7 @@ function draw() {
     //Zet de goede naam bij de huidige speler
     $.get("/getHuidigeSpeler", function (speler) {
         var naam = speler.name;
-        console.log("speler : " + naam);
+        //console.log("speler : " + naam);
         $("#huidigeSpeler").text(naam);
     });
 
@@ -29,7 +29,7 @@ function draw() {
     $("#wisselBeurt").click(function () {
         $.post("/wisselBeurt", undefined, function (speler) {
             var naam = speler.name;
-            console.log("speler : " + naam);
+            //console.log("speler : " + naam);
             $("#huidigeSpeler").text(naam);
         });
     });
@@ -38,7 +38,7 @@ function draw() {
     //Teken bord
     var plaatjes = [];
     $.get("/tegelsOpBord", function (kolommen) {
-
+    	
         //Vul plaatjes met de locaties van de tegel pngs
         for (var i = 0; i < kolommen.length; i++) {
             plaatjes[i] = [];
@@ -59,7 +59,7 @@ function draw() {
 
             for (var kolom = 0; kolom < gridSize; kolom++) {
                 for (var rij = 0; rij < gridSize; rij++) {
-                    //console.log("url: " + plaatjes[kolom][rij]);
+                    //console.log("url: " + plaatjes);
                     var plaatje = imgMap.get(plaatjes[kolom][rij]);
                     var img = {plaatje: plaatje, x: kolom * tileSize, y: rij * tileSize};
                     img.x = (kolom * tileSize);
