@@ -3,18 +3,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href=<c:url value = "css/nieuweSpeler.css"></c:url>>
+<link rel="stylesheet" type="text/css" href="/css/nieuweSpeler.css">
+
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Maak speler</title>
 </head>
 <body>
 
-<h4>Je gaat meespelen in spel ${gameid }</h4>
-
-<form method="post" action="/spel/${gameid }/nieuwespeler">
-	Naam: <input type = "text" name = "naam">
-	<input type ="submit" value = "Speel mee">
-</form>
+<section id="alles">
+	<h3>Voeg een speler toe aan spel ${gameid }</h3>
+	
+	<form method="post" action="/spel/${gameid }/nieuwespeler" >
+	 	<button type="button" disabled class="colored form">Naam</button> 
+		<input type = "text" name = "naam" class="form">
+		<input type ="submit" value = "Speel mee" id= "extraBorder" class="colored form">
+	</form>
+</section>
 
 </body>
 </html>
