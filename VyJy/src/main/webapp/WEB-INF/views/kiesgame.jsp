@@ -23,7 +23,7 @@ $( function() {
 <body>
 
 <section id="alles">
-	<h3>Kies een bestaand spel, of maak een nieuw spel aan.</h3>
+	<h3>Kies een bestaand spel, of maak een nieuw spel aan</h3>
 	<!--  Huidig spel weergeven, als er al een spel actief is -->
 	
 	
